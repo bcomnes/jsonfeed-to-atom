@@ -1,5 +1,5 @@
 # jsonfeed-to-atom [![stability][0]][1]
-[![npm version][2]][3] [![build status][4]][5]
+[![npm version][2]][3] [![build status][4]][5] [![coverage][12]][13]
 [![downloads][8]][9] [![js-standard-style][10]][11]
 
 Convert a JSON feed to an atom feed.
@@ -118,3 +118,5 @@ Coverts a parsed JSON feed into an atom feed.  Returns the string of the atom fe
 [9]: https://npmjs.org/package/jsonfeed-to-atom
 [10]: https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat-square
 [11]: https://github.com/feross/standard
+[12]: https://img.shields.io/coveralls/bcomnes/jsonfeed-to-atom/master.svg?style=flat-square
+[13]: https://coveralls.io/github/bcomnes/jsonfeed-to-atom
