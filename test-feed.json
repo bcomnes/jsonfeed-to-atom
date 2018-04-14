@@ -25,37 +25,6 @@
     "url": "https://bret.io/my-blog-post",
     "external_url": "https://example.com/some-external-link",
     "id": "https://bret.io/my-blog-post-2018-04-07T22:06:43.000Z"
-   },
-   {
-    'date': '2018-04-07T15:06:43-07:00',
-    'title': 'Ahh yes, a title',
-    'modified': '2018-04-08T17:31:18Z',
-    'content': 'No html, just some text',
-    'url': '/my-blog-post',
-    'link': '/some-other-link',
-    'id': 'a-custom-id',
-    'summary': 'hey look a summary',
-    'image': '/some/image.png',
-    'banner_image': '/some/banner_image.png',
-    'author': 'Some Guy <someguy@gmail.com> (https://someguy.com)',
-    'tags': ['some', 'tags', 'as', 'well', 200],
-    'attachments': [
-      {
-        'url': '/relative/attatchment.mp3',
-        'mime_type': 'audio/mpeg',
-        'title': 'relative',
-        'size_in_bytes': 500000,
-        'duration_in_seconds': 200
-      },
-      {
-        'url': 'https://example.com/external/attatchment.mp3',
-        'mime_type': 'audio/mpeg',
-        'title': 'external',
-        'size_in_bytes': 2000,
-        'duration_in_seconds': 200,
-        an_extra_field: 'foo-bar'
-      }
-    ]
-  }
+   }
   ]
  }

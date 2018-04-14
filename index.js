@@ -146,3 +146,4 @@ function jsonfeedToAtom (jsonfeed) {
 }
 
 module.exports = jsonfeedToAtom
+module.exports.jsonfeedToAtomObject = jsonfeedToAtomObject

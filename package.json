@@ -5,9 +5,11 @@
   "main": "index.js",
   "scripts": {
     "test": "run-s test:*",
-    "test-skip:tape": "tape '{lib,test}/**/*.spec.js' | tap-format-spec",
+    "test:tape": "nyc tape 'test.js' | tap-format-spec",
     "test:lint": "standard",
-    "debug": "node --nolazy --inspect-brk=9229 node_modules/.bin/tape '{lib,test}/**/*.spec.js' | tap-format-spec"
+    "report": "nyc report --reporter=text-lcov | coveralls",
+    "debug": "node --nolazy --inspect-brk=9229 node_modules/.bin/tape 'test.js' | tap-format-spec",
+    "update": "node generate-snapshot.js"
   },
   "repository": {
     "type": "git",
@@ -35,8 +37,10 @@
   },
   "devDependencies": {
     "@tap-format/spec": "^0.2.0",
+    "coveralls": "^3.0.0",
     "existy": "^1.0.1",
     "npm-run-all": "^4.0.2",
+    "nyc": "^11.6.0",
     "standard": "^10.0.0",
     "tape": "^4.7.0",
     "tape-run": "^3.0.0",
