@@ -1,0 +1,26 @@
+{
+  "name": "jsonfeed-to-atom",
+  "version": "1.0.0",
+  "description": "Convert a JSON feed to an atom feed",
+  "main": "index.js",
+  "scripts": {
+    "test": "run-s test:*"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bcomnes/jsonfeed-to-atom.git"
+  },
+  "keywords": [
+    "jsonfeed",
+    "atom",
+    "rss",
+    "xml",
+    "json"
+  ],
+  "author": "Bret Comnes",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/bcomnes/jsonfeed-to-atom/issues"
+  },
+  "homepage": "https://github.com/bcomnes/jsonfeed-to-atom#readme"
+}
