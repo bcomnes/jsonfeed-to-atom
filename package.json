@@ -1,35 +1,12 @@
 {
   "name": "jsonfeed-to-atom",
-  "version": "1.0.0",
   "description": "Convert a JSON feed to an atom feed",
-  "main": "index.js",
-  "scripts": {
-    "test": "run-s test:*",
-    "test:tape": "nyc tape 'test.js' | tap-format-spec",
-    "test:lint": "standard",
-    "report": "nyc report --reporter=text-lcov | coveralls",
-    "debug": "node --nolazy --inspect-brk=9229 node_modules/.bin/tape 'test.js' | tap-format-spec",
-    "update": "node generate-snapshot.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/bcomnes/jsonfeed-to-atom.git"
-  },
-  "keywords": [
-    "jsonfeed",
-    "atom",
-    "rss",
-    "xml",
-    "json"
-  ],
+  "version": "1.0.0",
   "author": "Bret Comnes",
-  "license": "MIT",
   "bugs": {
     "url": "https://github.com/bcomnes/jsonfeed-to-atom/issues"
   },
-  "homepage": "https://github.com/bcomnes/jsonfeed-to-atom#readme",
   "dependencies": {
-    "run-parallel": "^1.1.8",
     "striptags": "^3.1.1",
     "trim-left": "^1.0.1",
     "trim-right": "^1.0.1",
@@ -38,6 +15,7 @@
   "devDependencies": {
     "@tap-format/spec": "^0.2.0",
     "coveralls": "^3.0.0",
+    "dependency-check": "^3.1.0",
     "existy": "^1.0.1",
     "npm-run-all": "^4.0.2",
     "nyc": "^11.6.0",
@@ -45,5 +23,28 @@
     "tape": "^4.7.0",
     "tape-run": "^3.0.0",
     "temporary-directory": "^1.0.2"
+  },
+  "homepage": "https://github.com/bcomnes/jsonfeed-to-atom#readme",
+  "keywords": [
+    "atom",
+    "json",
+    "jsonfeed",
+    "rss",
+    "xml"
+  ],
+  "license": "MIT",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bcomnes/jsonfeed-to-atom.git"
+  },
+  "scripts": {
+    "debug": "node --nolazy --inspect-brk=9229 node_modules/.bin/tape 'test.js' | tap-format-spec",
+    "report": "nyc report --reporter=text-lcov | coveralls",
+    "test": "run-s test:*",
+    "test:lint": "standard",
+    "test:tape": "nyc tape 'test.js' | tap-format-spec",
+    "test:deps": "dependency-check package.json --missing --unused --no-dev",
+    "update": "node generate-snapshot.js"
   }
 }
