@@ -4,6 +4,8 @@
 
 Convert a JSON feed to an atom feed.
 
+![](https://jsonfeed.org/graphics/icon.png)
+
 ## Installation
 ```console
 $ npm install jsonfeed-to-atom
