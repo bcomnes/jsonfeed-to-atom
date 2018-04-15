@@ -4,7 +4,7 @@
 
 Convert a JSON feed to an atom feed.
 
-![](https://jsonfeed.org/graphics/icon.png)
+![JSON feed icon](/icon.png) 
 
 ## Installation
 ```console
