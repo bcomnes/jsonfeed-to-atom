@@ -14,6 +14,13 @@
   },
   "items": [
    {
+    "date_published": "2018-04-13T22:06:43.000Z",
+    "content_text": "ey, no link, nourl",
+    "title": "but it has a summary!",
+    "id": "a-unique-id",
+    "summary": "but it has a summary!"
+   },
+   {
     "date_published": "2018-04-12T22:06:43.000Z",
     "content_html": "<p>A post with some tags</p>",
     "title": "A post with some tags",
@@ -34,7 +41,6 @@
       "url": "https://example.com/attatchments.mp4",
       "mime_type": "audio/mpeg",
       "title": "Hey this is a podcast",
-      "size_in_bytes": 1234,
       "duration_in_seconds": 12345
      },
      {

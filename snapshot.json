@@ -3,7 +3,7 @@
   "@xmlns": "http://www.w3.org/2005/Atom",
   "title": "bret.io log",
   "id": "https://bret.io/feed.xml",
-  "updated": "2018-04-12T22:06:43.000Z",
+  "updated": "2018-04-13T22:06:43.000Z",
   "link": [
    {
     "@rel": "self",
@@ -38,6 +38,24 @@
   "rights": "© 2018 Bret Comnes",
   "subtitle": "A running log of announcements, projects and accomplishments.",
   "entry": [
+   {
+    "id": "a-unique-id",
+    "title": "but it has a summary!",
+    "updated": "2018-04-13T22:06:43.000Z",
+    "published": "2018-04-13T22:06:43.000Z",
+    "author": {
+     "name": "Bret Comnes",
+     "uri": "https://bret.io"
+    },
+    "content": [
+     {
+      "@type": "text",
+      "#text": "ey, no link, nourl"
+     }
+    ],
+    "link": [],
+    "summary": "but it has a summary!"
+   },
    {
     "id": "https://example.com/tags-2018-04-12T22:06:43.000Z",
     "title": "A post with some tags",
@@ -91,8 +109,7 @@
      {
       "@rel": "enclosure",
       "type": "audio/mpeg",
-      "href": "https://example.com/attatchments.mp4",
-      "length": 1234
+      "href": "https://example.com/attatchments.mp4"
      },
      {
       "@rel": "enclosure",

@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>bret.io log</title>
   <id>https://bret.io/feed.xml</id>
-  <updated>2018-04-12T22:06:43.000Z</updated>
+  <updated>2018-04-13T22:06:43.000Z</updated>
   <link rel="self" type="application/atom+xml" href="https://bret.io/feed.xml"/>
   <link rel="alternate" type="application/json" href="https://bret.io/feed.json"/>
   <link rel="alternate" type="text/html" href="https://bret.io"/>
@@ -15,6 +15,19 @@
   <icon>https://bret.io/favicon-64x64.png</icon>
   <rights>© 2018 Bret Comnes</rights>
   <subtitle>A running log of announcements, projects and accomplishments.</subtitle>
+  <entry>
+    <id>a-unique-id</id>
+    <title>but it has a summary!</title>
+    <updated>2018-04-13T22:06:43.000Z</updated>
+    <published>2018-04-13T22:06:43.000Z</published>
+    <author>
+      <name>Bret Comnes</name>
+      <uri>https://bret.io</uri>
+    </author>
+    <content type="text">ey, no link, nourl</content>
+    <link/>
+    <summary>but it has a summary!</summary>
+  </entry>
   <entry>
     <id>https://example.com/tags-2018-04-12T22:06:43.000Z</id>
     <title>A post with some tags</title>
@@ -47,7 +60,6 @@
     <link rel="enclosure">
       <type>audio/mpeg</type>
       <href>https://example.com/attatchments.mp4</href>
-      <length>1234</length>
     </link>
     <link rel="enclosure">
       <type>audio/mpeg</type>
