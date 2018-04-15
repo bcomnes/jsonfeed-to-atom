@@ -62,6 +62,10 @@ function jsonfeedToAtomObject (jf) {
         entry.author = {}
         if (item.author.name) entry.author.name = item.name
         if (item.author.url) entry.author.uri = item.url
+      } else if (jf.author) {
+        entry.author = {}
+        if (jf.author.name) entry.author.name = jf.author.name
+        if (jf.author.url) entry.author.uri = jf.author.url
       }
 
       entry.content = []
@@ -71,6 +75,7 @@ function jsonfeedToAtomObject (jf) {
           '@type': 'html',
           '#cdata': item.content_html
         }
+        if (jf.home_page_url) htmlContent['xml:base'] = jf.home_page_url
         entry.content.push(htmlContent)
       }
 
@@ -83,14 +88,22 @@ function jsonfeedToAtomObject (jf) {
       }
 
       entry.link = []
-      if (item.url) {
+      if (item.url && item.external_url) { // mainly for compatibility
+        entry.link.push({
+          '@rel': 'alternate',
+          '@href': item.external_url
+        })
+
+        entry.link.push({
+          '@rel': 'related',
+          '@href': item.url
+        })
+      } else if (item.url) {
         entry.link.push({
           '@rel': 'alternate',
           '@href': item.url
         })
-      }
-
-      if (item.external_url) {
+      } else if (item.external_url) {
         entry.link.push({
           '@rel': 'related',
           '@href': item.external_url
