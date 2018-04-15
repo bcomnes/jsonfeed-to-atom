@@ -14,7 +14,7 @@ $ npm install jsonfeed-to-atom
 ## Usage
 
 ```js
-const jsonfeedToAtom = require('./jsonfeed-to-atom')
+const jsonfeedToAtom = require('jsonfeed-to-atom')
 const someJSONFeed = require('./load-some-json-feed-data.json')
 
 const atomFeed = jsonfeedToAtom(someJSONFeed) // Returns an atom formatted json feed
