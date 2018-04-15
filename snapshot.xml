@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>bret.io log</title>
   <id>https://bret.io/feed.xml</id>
-  <updated>2018-04-07T22:06:43.000Z</updated>
+  <updated>2018-04-12T22:06:43.000Z</updated>
   <link rel="self" type="application/atom+xml" href="https://bret.io/feed.xml"/>
   <link rel="alternate" type="application/json" href="https://bret.io/feed.json"/>
   <link rel="alternate" type="text/html" href="https://bret.io"/>
@@ -12,21 +12,90 @@
     <uri>https://bret.io</uri>
   </author>
   <generator uri="https://github.com/bcomnes/jsonfeed-to-atom#readme" version="1.0.3">jsonfeed-to-atom</generator>
-  <icon>https://bret.io/icon-512x512.png</icon>
+  <icon>https://bret.io/favicon-64x64.png</icon>
   <rights>© 2018 Bret Comnes</rights>
   <subtitle>A running log of announcements, projects and accomplishments.</subtitle>
   <entry>
-    <id>https://bret.io/my-text-post-2018-04-07T20:48:02.000Z</id>
-    <title>Wee wooo this is some content.</title>
-    <updated>2018-04-07T20:48:02.000Z</updated>
-    <published>2018-04-07T20:48:02.000Z</published>
+    <id>https://example.com/tags-2018-04-12T22:06:43.000Z</id>
+    <title>A post with some tags</title>
+    <updated>2018-04-12T22:06:43.000Z</updated>
+    <published>2018-04-12T22:06:43.000Z</published>
     <author>
       <name>Bret Comnes</name>
       <uri>https://bret.io</uri>
     </author>
-    <content type="text">Wee wooo this is some content. 
- Maybe a new paragraph too</content>
-    <link rel="alternate" href="https://bret.io/my-text-post"/>
+    <content type="html">
+      <![CDATA[<p>A post with some tags</p>]]>
+    </content>
+    <link rel="alternate" href="https://example.com/tags"/>
+    <category term="foo"/>
+    <category term="bar"/>
+  </entry>
+  <entry>
+    <id>https://example.com/empty-attatchments-2018-04-11T22:06:43.000Z</id>
+    <title>Attachments</title>
+    <updated>2018-04-11T22:06:43.000Z</updated>
+    <published>2018-04-11T22:06:43.000Z</published>
+    <author>
+      <name>Bret Comnes</name>
+      <uri>https://bret.io</uri>
+    </author>
+    <content type="html">
+      <![CDATA[<p>Attachments</p>]]>
+    </content>
+    <link rel="alternate" href="https://example.com/empty-attatchments"/>
+    <link rel="enclosure">
+      <type>audio/mpeg</type>
+      <href>https://example.com/attatchments.mp4</href>
+      <length>1234</length>
+    </link>
+    <link rel="enclosure">
+      <type>audio/mpeg</type>
+      <href>https://example.com/attatchments-45.mp4</href>
+      <length>1234</length>
+    </link>
+  </entry>
+  <entry>
+    <id>https://example.com/empty-attatchments-2018-04-10T22:06:43.000Z</id>
+    <title>Empty attachments</title>
+    <updated>2018-04-10T22:06:43.000Z</updated>
+    <published>2018-04-10T22:06:43.000Z</published>
+    <author>
+      <name>Bret Comnes</name>
+      <uri>https://bret.io</uri>
+    </author>
+    <content type="html">
+      <![CDATA[<p>Empty attachments</p>]]>
+    </content>
+    <link rel="alternate" href="https://example.com/empty-attatchments"/>
+  </entry>
+  <entry>
+    <id>https://example.com/some-external-link2-2018-04-09T22:06:43.000Z</id>
+    <title>A post with no URL!!</title>
+    <updated>2018-04-09T22:06:43.000Z</updated>
+    <published>2018-04-09T22:06:43.000Z</published>
+    <author>
+      <name>Bret Comnes</name>
+      <uri>https://bret.io</uri>
+    </author>
+    <content type="html">
+      <![CDATA[<p>A post with no URL!!</p>]]>
+    </content>
+    <link rel="related" href="https://example.com/some-external-link2"/>
+  </entry>
+  <entry>
+    <id>https://example.com/some-external-link2rfdsfa-2018-04-08T22:06:43.000Z</id>
+    <title>A post with an author</title>
+    <updated>2018-04-08T22:06:43.000Z</updated>
+    <published>2018-04-08T22:06:43.000Z</published>
+    <author>
+      <name>Mr Guy</name>
+      <uri>https://twitter.com/foo</uri>
+    </author>
+    <content type="html">
+      <![CDATA[<p>A post with an author</p>]]>
+    </content>
+    <link rel="alternate" href="https://example.com/some-external-link2rfdsfa"/>
   </entry>
   <entry>
     <id>https://bret.io/my-blog-post-2018-04-07T22:06:43.000Z</id>
@@ -42,5 +111,18 @@
     </content>
     <link rel="alternate" href="https://example.com/some-external-link"/>
     <link rel="related" href="https://bret.io/my-blog-post"/>
+  </entry>
+  <entry>
+    <id>https://bret.io/my-text-post-2018-04-07T20:48:02.000Z</id>
+    <title>Wee wooo this is some content.</title>
+    <updated>2018-04-07T20:48:02.000Z</updated>
+    <published>2018-04-07T20:48:02.000Z</published>
+    <author>
+      <name>Bret Comnes</name>
+      <uri>https://bret.io</uri>
+    </author>
+    <content type="text">Wee wooo this is some content. 
+ Maybe a new paragraph too</content>
+    <link rel="alternate" href="https://bret.io/my-text-post"/>
   </entry>
 </feed>

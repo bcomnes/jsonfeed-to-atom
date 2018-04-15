@@ -66,8 +66,8 @@ module.exports = function jsonfeedToAtomObject (jf) {
 
       if (item.author) {
         entry.author = {}
-        if (item.author.name) entry.author.name = item.name
-        if (item.author.url) entry.author.uri = item.url
+        if (item.author.name) entry.author.name = item.author.name
+        if (item.author.url) entry.author.uri = item.author.url
       } else if (jf.author) {
         // Atom is supposed to support document scoped authors, but it does not in practice
         entry.author = {}
