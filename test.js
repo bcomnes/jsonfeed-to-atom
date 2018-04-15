@@ -3,9 +3,15 @@ const testFeed = require('./test-feed.json')
 const test = require('tape')
 const fs = require('fs')
 const packageInfo = require('./package.json')
+const jsonfeedToAtomObject = require('./jsonfeed-to-atom-object')
 
+/**
+ * Converts a JSON feed to an atom feed xmlbuilder object
+ * @param  {object} jf A parsed JSON feed object
+ * @returns {object} xmlbuilder object
+ */
 test('test-feed snapshot', t => {
-  const atomObj = jsonfeedToAtom.jsonfeedToAtomObject(testFeed)
+  const atomObj = jsonfeedToAtomObject(testFeed)
 
   const expect = {
     'feed': {
