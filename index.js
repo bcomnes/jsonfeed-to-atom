@@ -1,3 +1,4 @@
+/* eslint-enable require-jsdoc */
 const builder = require('xmlbuilder')
 const packageInfo = require('./package.json')
 const striptags = require('striptags')
@@ -5,6 +6,8 @@ const trimRight = require('trim-right')
 const trimLeft = require('trim-left')
 
 function jsonfeedToAtomObject (jf) {
+  // JSON Feed to atom mapping based off of the atomenabled.org guidelines
+  // https://web.archive.org/web/20160113103647/http://atomenabled.org/developers/syndication/#link
   const { title, version, feed_url: feedURL } = jf
   if (!title) throw new Error('jsonfeed-to-atom: missing title')
   if (version !== 'https://jsonfeed.org/version/1') throw new Error('jsonfeed-to-atom: JSON feed version 1 required')
@@ -63,6 +66,7 @@ function jsonfeedToAtomObject (jf) {
         if (item.author.name) entry.author.name = item.name
         if (item.author.url) entry.author.uri = item.url
       } else if (jf.author) {
+        // Atom is supposed to support document scoped authors, but it does not in practice
         entry.author = {}
         if (jf.author.name) entry.author.name = jf.author.name
         if (jf.author.url) entry.author.uri = jf.author.url
@@ -75,6 +79,7 @@ function jsonfeedToAtomObject (jf) {
           '@type': 'html',
           '#cdata': item.content_html
         }
+        // Not sure if this is worth doing.  Please open an issue if you have understanding about this attribute
         // if (jf.home_page_url) htmlContent['@xml:base'] = jf.home_page_url
         entry.content.push(htmlContent)
       }
@@ -88,7 +93,10 @@ function jsonfeedToAtomObject (jf) {
       }
 
       entry.link = []
-      if (item.url && item.external_url) { // mainly for compatibility
+      if (item.url && item.external_url) {
+        // In ideal world, url would always map to alternate
+        // and external_url would always map to related
+        // Feed readers do not work this way unfortunately
         entry.link.push({
           '@rel': 'alternate',
           '@href': item.external_url
@@ -137,6 +145,8 @@ function jsonfeedToAtomObject (jf) {
 }
 
 function generateRequiredTitle (item) {
+  // A fairly arbitrary attempt at generating titles.
+  // Ideally your JSON feed includes a title for every post. Most UI's will look strange without it
   if (item.title) return item.title
   if (item.summary) return truncate(cleanWhitespace(item.summary))
   if (item.content_text) return truncate(cleanWhitespace(item.content_text))

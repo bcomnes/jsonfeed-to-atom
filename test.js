@@ -2,6 +2,7 @@ const jsonfeedToAtom = require('./')
 const testFeed = require('./test-feed.json')
 const test = require('tape')
 const fs = require('fs')
+const packageInfo = require('./package.json')
 
 test('test-feed snapshot', t => {
   const atomObj = jsonfeedToAtom.jsonfeedToAtomObject(testFeed)
@@ -39,7 +40,7 @@ test('test-feed snapshot', t => {
       },
       'generator': {
         '@uri': 'https://github.com/bcomnes/jsonfeed-to-atom#readme',
-        '@version': '1.0.0',
+        '@version': packageInfo.version,
         '#text': 'jsonfeed-to-atom'
       },
       'icon': 'https://bret.io/icon-512x512.png',
