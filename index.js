@@ -75,7 +75,7 @@ function jsonfeedToAtomObject (jf) {
           '@type': 'html',
           '#cdata': item.content_html
         }
-        if (jf.home_page_url) htmlContent['xml:base'] = jf.home_page_url
+        // if (jf.home_page_url) htmlContent['@xml:base'] = jf.home_page_url
         entry.content.push(htmlContent)
       }
 

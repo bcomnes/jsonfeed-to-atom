@@ -51,6 +51,7 @@ test('test-feed snapshot', t => {
           'title': 'Wee wooo this is some content.',
           'updated': '2018-04-07T20:48:02.000Z',
           'published': '2018-04-07T20:48:02.000Z',
+          author: { name: 'Bret Comnes', uri: 'https://bret.io' },
           'content': [
             {
               '@type': 'text',
@@ -69,6 +70,7 @@ test('test-feed snapshot', t => {
           'title': 'This is a blog title',
           'updated': '2018-04-07T22:06:43.000Z',
           'published': '2018-04-07T22:06:43.000Z',
+          author: { name: 'Bret Comnes', uri: 'https://bret.io' },
           'content': [
             {
               '@type': 'html',
@@ -78,11 +80,11 @@ test('test-feed snapshot', t => {
           'link': [
             {
               '@rel': 'alternate',
-              '@href': 'https://bret.io/my-blog-post'
+              '@href': 'https://example.com/some-external-link'
             },
             {
               '@rel': 'related',
-              '@href': 'https://example.com/some-external-link'
+              '@href': 'https://bret.io/my-blog-post'
             }
           ]
         }

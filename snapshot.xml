@@ -20,6 +20,10 @@
     <title>Wee wooo this is some content.</title>
     <updated>2018-04-07T20:48:02.000Z</updated>
     <published>2018-04-07T20:48:02.000Z</published>
+    <author>
+      <name>Bret Comnes</name>
+      <uri>https://bret.io</uri>
+    </author>
     <content type="text">Wee wooo this is some content. 
  Maybe a new paragraph too</content>
     <link rel="alternate" href="https://bret.io/my-text-post"/>
@@ -29,10 +33,14 @@
     <title>This is a blog title</title>
     <updated>2018-04-07T22:06:43.000Z</updated>
     <published>2018-04-07T22:06:43.000Z</published>
+    <author>
+      <name>Bret Comnes</name>
+      <uri>https://bret.io</uri>
+    </author>
     <content type="html">
       <![CDATA[<p>Hello, world!</p>]]>
     </content>
-    <link rel="alternate" href="https://bret.io/my-blog-post"/>
-    <link rel="related" href="https://example.com/some-external-link"/>
+    <link rel="alternate" href="https://example.com/some-external-link"/>
+    <link rel="related" href="https://bret.io/my-blog-post"/>
   </entry>
 </feed>
