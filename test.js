@@ -4,6 +4,7 @@ const jsonfeedToAtom = require('./')
 const generateTitle = require('./lib/generate-title')
 const test = require('tape')
 const fs = require('fs')
+const packageInfo = require('./package.json')
 
 test('missing property errors', t => {
   t.throws(() => {
@@ -93,7 +94,7 @@ test('test logic branches', {objectPrintDepth: 10}, t => {
       { '@rel': 'self', '@type': 'application/atom+xml', '@href': 'https://jsonfeed.org/version/feed.xml' },
       { '@rel': 'alternate', '@type': 'application/json', '@href': 'https://jsonfeed.org/version/feed.json' }
     ],
-    generator: { '@uri': 'https://github.com/bcomnes/jsonfeed-to-atom#readme', '@version': '1.0.3', '#text': 'jsonfeed-to-atom' },
+    generator: { '@uri': 'https://github.com/bcomnes/jsonfeed-to-atom#readme', '@version': packageInfo.version, '#text': 'jsonfeed-to-atom' },
     entry: [
       {
         id: 'a-unique-id',
