@@ -67,3 +67,48 @@ test('full integration snapshot', t => {
   t.equal(atomFeed, expect, 'xml output snapshot is the same')
   t.end()
 })
+
+test('test logic branches', {objectPrintDepth: 10}, t => {
+  const jf = {
+    version: 'https://jsonfeed.org/version/1',
+    title: 'a feed',
+    feed_url: 'https://jsonfeed.org/version/feed.json',
+    items: [
+      {
+        'date_published': '2018-04-13T22:06:43.000Z',
+        'date_modified': '2018-04-16T03:42:56Z',
+        'content_text': 'ey, no link, nourl',
+        'title': 'but it has a summary!',
+        'id': 'a-unique-id',
+        'summary': 'but it has a summary!'
+      }
+    ]
+  }
+  const expect = { feed: {
+    '@xmlns': 'http://www.w3.org/2005/Atom',
+    title: 'a feed',
+    id: 'https://jsonfeed.org/version/feed.xml',
+    updated: '2018-04-16T03:42:56Z',
+    link: [
+      { '@rel': 'self', '@type': 'application/atom+xml', '@href': 'https://jsonfeed.org/version/feed.xml' },
+      { '@rel': 'alternate', '@type': 'application/json', '@href': 'https://jsonfeed.org/version/feed.json' }
+    ],
+    generator: { '@uri': 'https://github.com/bcomnes/jsonfeed-to-atom#readme', '@version': '1.0.3', '#text': 'jsonfeed-to-atom' },
+    entry: [
+      {
+        id: 'a-unique-id',
+        title: 'but it has a summary!',
+        updated: '2018-04-16T03:42:56Z',
+        published: '2018-04-13T22:06:43.000Z',
+        content: [
+          { '@type': 'text', '#text': 'ey, no link, nourl' }
+        ],
+        link: [],
+        summary: 'but it has a summary!'
+      }
+    ]
+  } }
+
+  t.deepEqual(jsonfeedToAtomObject(jf), expect, 'test missing most fields')
+  t.end()
+})

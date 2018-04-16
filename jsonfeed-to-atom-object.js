@@ -3,17 +3,18 @@ const generateTitle = require('./lib/generate-title')
 
 /**
  * Converts a JSON feed to an atom feed xmlbuilder object
- * @param  {object} jf A parsed JSON feed object
- * @returns {object} xmlbuilder object
  */
-module.exports = function jsonfeedToAtomObject (jf) {
+module.exports = function jsonfeedToAtomObject (jf, opts) {
+  opts = Object.assign({
+    feedURLFn: (feedURL, jf) => feedURL.replace(/\.json\b/, '.xml')
+  }, opts)
   // JSON Feed to atom mapping based off of the atomenabled.org guidelines
   // https://web.archive.org/web/20160113103647/http://atomenabled.org/developers/syndication/#link
   const { title, version, feed_url: feedURL } = jf
   if (!title) throw new Error('jsonfeed-to-atom: missing title')
   if (version !== 'https://jsonfeed.org/version/1') throw new Error('jsonfeed-to-atom: JSON feed version 1 required')
   if (!feedURL) throw new Error('jsonfeed-to-atom: missing feed_url')
-  const atomFeedURL = feedURL.replace('json', 'xml')
+  const atomFeedURL = opts.feedURLFn(feedURL, jf)
   const now = new Date()
   const atom = {
     feed: { // Required items

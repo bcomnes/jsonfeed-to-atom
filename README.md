@@ -98,8 +98,17 @@ Example output:
 ```
 
 ## API
-### `jsonfeedToAtom(parsedJsonfeed)`
+### `jsonfeedToAtom(parsedJsonfeed, opts)`
 Coverts a parsed JSON feed into an atom feed.  Returns the string of the atom feed.
+
+Opts include:
+
+```js
+{
+  // a function that returns the atom feed url
+  feedURLFn: (feedURL, jf) => feedURL.replace(/\.json\b/, '.xml')
+}
+```
 
 ## See also
 
