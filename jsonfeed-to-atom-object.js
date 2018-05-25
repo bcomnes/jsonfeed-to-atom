@@ -123,9 +123,9 @@ module.exports = function jsonfeedToAtomObject (jf, opts) {
       if (item.attachments) {
         item.attachments.forEach(attachment => {
           const enclosure = { '@rel': 'enclosure' }
-          enclosure.type = attachment.mime_type
-          enclosure.href = attachment.url
-          if (attachment.size_in_bytes) enclosure.length = attachment.size_in_bytes
+          enclosure['@type'] = attachment.mime_type
+          enclosure['@href'] = attachment.url
+          if (attachment.size_in_bytes) enclosure['@length'] = attachment.size_in_bytes
           entry.link.push(enclosure)
         })
       }
