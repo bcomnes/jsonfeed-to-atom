@@ -108,14 +108,14 @@
      },
      {
       "@rel": "enclosure",
-      "type": "audio/mpeg",
-      "href": "https://example.com/attatchments.mp4"
+      "@type": "audio/mpeg",
+      "@href": "https://example.com/attatchments.mp4"
      },
      {
       "@rel": "enclosure",
-      "type": "audio/mpeg",
-      "href": "https://example.com/attatchments-45.mp4",
-      "length": 1234
+      "@type": "audio/mpeg",
+      "@href": "https://example.com/attatchments-45.mp4",
+      "@length": 1234
      }
     ]
    },
