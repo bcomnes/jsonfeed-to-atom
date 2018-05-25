@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 1.1.2 - 2018-05-25
+* Fix enclosure tags [#3](https://github.com/bcomnes/jsonfeed-to-atom/pull/3) Thanks [@xriss](https://github.com/xriss)
+
 ## 1.1.1 - 2018-04-15
 * Fix tests during release stage
 
