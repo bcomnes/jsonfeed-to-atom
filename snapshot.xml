@@ -11,7 +11,7 @@
     <name>Bret Comnes</name>
     <uri>https://bret.io</uri>
   </author>
-  <generator uri="https://github.com/bcomnes/jsonfeed-to-atom#readme" version="1.1.2">jsonfeed-to-atom</generator>
+  <generator uri="https://github.com/bcomnes/jsonfeed-to-atom#readme" version="1.1.3">jsonfeed-to-atom</generator>
   <icon>https://bret.io/favicon-64x64.png</icon>
   <logo>https://bret.io/icon-512x512.png</logo>
   <rights>© 2018 Bret Comnes</rights>
