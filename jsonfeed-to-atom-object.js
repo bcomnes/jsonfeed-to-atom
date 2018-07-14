@@ -47,6 +47,7 @@ module.exports = function jsonfeedToAtomObject (jf, opts) {
     '#text': packageInfo.name
   }
   if (jf.favicon || jf.icon) atom.feed.icon = jf.favicon || jf.icon
+  if (jf.icon) atom.feed.logo = jf.icon
   if (jf.author && jf.author.name) atom.feed.rights = `© ${now.getFullYear()} ${jf.author.name}`
   if (jf.description) atom.feed.subtitle = jf.description
 

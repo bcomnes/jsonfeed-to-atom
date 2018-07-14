@@ -35,6 +35,7 @@
    "#text": "jsonfeed-to-atom"
   },
   "icon": "https://bret.io/favicon-64x64.png",
+  "logo": "https://bret.io/icon-512x512.png",
   "rights": "© 2018 Bret Comnes",
   "subtitle": "A running log of announcements, projects and accomplishments.",
   "entry": [
