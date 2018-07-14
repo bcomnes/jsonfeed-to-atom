@@ -113,8 +113,9 @@ Opts include:
 ## See also
 
 - [JSON Feed: Mapping RSS and Atom to JSON Feed](https://jsonfeed.org/mappingrssandatom)
-- [AtomEnabled: Developers > Syndication](https://web.archive.org/web/20160113103647/http://atomenabled.org/developers/syndication/#link)
+- [AtomEnabled: Developers > Syndication](https://mro.github.io/atomenabled.org/)  ([Archive](https://web.archive.org/web/20160113103647/http://atomenabled.org/developers/syndication/#link))
 - [bcomnes/generate-feed](https://github.com/bcomnes/generate-feed)
+- [Rss20AndAtom10Compared](http://www.intertwingly.net/wiki/pie/Rss20AndAtom10Compared)
 
 ## License
 [MIT](https://tldrlegal.com/license/mit-license)

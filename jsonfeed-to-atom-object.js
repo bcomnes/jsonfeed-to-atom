@@ -9,6 +9,7 @@ module.exports = function jsonfeedToAtomObject (jf, opts) {
     feedURLFn: (feedURL, jf) => feedURL.replace(/\.json\b/, '.xml')
   }, opts)
   // JSON Feed to atom mapping based off of the atomenabled.org guidelines
+  // https://mro.github.io/atomenabled.org/
   // https://web.archive.org/web/20160113103647/http://atomenabled.org/developers/syndication/#link
   const { title, version, feed_url: feedURL } = jf
   if (!title) throw new Error('jsonfeed-to-atom: missing title')
