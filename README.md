@@ -116,6 +116,7 @@ Opts include:
 - [AtomEnabled: Developers > Syndication](https://mro.github.io/atomenabled.org/)  ([Archive](https://web.archive.org/web/20160113103647/http://atomenabled.org/developers/syndication/#link))
 - [bcomnes/generate-feed](https://github.com/bcomnes/generate-feed)
 - [Rss20AndAtom10Compared](http://www.intertwingly.net/wiki/pie/Rss20AndAtom10Compared)
+- [bcomnes/jsonfeed-to-rss](https://github.com/bcomnes/jsonfeed-to-rss): For podcasts or if you prefer RSS
 
 ## License
 [MIT](https://tldrlegal.com/license/mit-license)
