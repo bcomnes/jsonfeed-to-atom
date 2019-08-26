@@ -1,4 +1,7 @@
 # jsonfeed-to-atom [![stability][0]][1]
+
+[![Greenkeeper badge](https://badges.greenkeeper.io/bcomnes/jsonfeed-to-atom.svg)](https://greenkeeper.io/)
+
 [![npm version][2]][3] [![build status][4]][5] [![coverage][12]][13]
 [![downloads][8]][9] [![js-standard-style][10]][11]
 

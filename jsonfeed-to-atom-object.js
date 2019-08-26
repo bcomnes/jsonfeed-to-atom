@@ -31,10 +31,10 @@ module.exports = function jsonfeedToAtomObject (jf, opts) {
     { '@rel': 'alternate', '@type': 'application/json', '@href': feedURL }
   ]
   if (jf.home_page_url) {
-    atom.feed.link.push({'@rel': 'alternate', '@type': 'text/html', '@href': jf.home_page_url})
+    atom.feed.link.push({ '@rel': 'alternate', '@type': 'text/html', '@href': jf.home_page_url })
   }
   if (jf.next_url) {
-    atom.feed.link.push({'@rel': 'next', '@href': jf.next_url.replace('json', 'xml')})
+    atom.feed.link.push({ '@rel': 'next', '@href': jf.next_url.replace('json', 'xml') })
   }
 
   if (jf.author) {
