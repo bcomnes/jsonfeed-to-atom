@@ -8,19 +8,19 @@
   },
   "dependencies": {
     "striptags": "^3.1.1",
-    "xmlbuilder": "^9.0.7"
+    "xmlbuilder": "^13.0.2"
   },
   "devDependencies": {
     "@tap-format/spec": "^0.2.0",
     "coveralls": "^3.0.0",
-    "dependency-check": "^3.1.0",
+    "dependency-check": "^4.1.0",
     "existy": "^1.0.1",
     "npm-run-all": "^4.0.2",
-    "nyc": "^11.6.0",
-    "snazzy": "^7.1.1",
-    "standard": "^10.0.0",
+    "nyc": "^14.1.1",
+    "snazzy": "^8.0.0",
+    "standard": "^14.0.2",
     "tape": "^4.7.0",
-    "tape-run": "^3.0.0",
+    "tape-run": "^6.0.1",
     "temporary-directory": "^1.0.2"
   },
   "homepage": "https://github.com/bcomnes/jsonfeed-to-atom#readme",
