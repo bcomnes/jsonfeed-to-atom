@@ -16,7 +16,7 @@
     "dependency-check": "^4.1.0",
     "existy": "^1.0.1",
     "npm-run-all": "^4.0.2",
-    "nyc": "^14.1.1",
+    "nyc": "^15.0.0",
     "snazzy": "^8.0.0",
     "standard": "^14.0.2",
     "tape": "^4.7.0",
