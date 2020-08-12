@@ -10,8 +10,8 @@ const jsonfeedToAtomObject = require('./jsonfeed-to-atom-object')
 /**
  * Convert a parsed JSON feed object into an atom xml document
  */
-module.exports = function jsonfeedToAtom (jsonfeed) {
-  const feedObj = jsonfeedToAtomObject(jsonfeed)
+module.exports = function jsonfeedToAtom (jsonfeed, opts) {
+  const feedObj = jsonfeedToAtomObject(jsonfeed, opts)
   const feed = builder.create(feedObj, { encoding: 'utf-8' })
   return feed.end({ pretty: true })
 }
