@@ -31,7 +31,7 @@
   },
   "generator": {
    "@uri": "https://github.com/bcomnes/jsonfeed-to-atom#readme",
-   "@version": "1.2.0",
+   "@version": "1.2.1",
    "#text": "jsonfeed-to-atom"
   },
   "icon": "https://bret.io/favicon-64x64.png",
