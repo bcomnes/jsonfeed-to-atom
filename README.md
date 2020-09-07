@@ -1,11 +1,11 @@
 # jsonfeed-to-atom
 
-[![npm version][2]][3] [![build status][4]][5] [![coverage][12]][13]
+[![npm version][2]][3] [![build status][4]][5]
 [![downloads][8]][9] [![js-standard-style][10]][11]
 
 Convert a JSON feed to an atom feed.
 
-![JSON feed icon](/icon.png) 
+![JSON feed icon](/icon.png)
 
 ## Installation
 ```console
@@ -80,7 +80,7 @@ Example output:
     <title>Wee wooo this is some content.</title>
     <updated>2018-04-07T20:48:02.000Z</updated>
     <published>2018-04-07T20:48:02.000Z</published>
-    <content type="text">Wee wooo this is some content. 
+    <content type="text">Wee wooo this is some content.
  Maybe a new paragraph too</content>
     <link rel="alternate" href="https://bret.io/my-text-post"/>
   </entry>

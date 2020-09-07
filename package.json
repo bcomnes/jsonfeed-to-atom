@@ -12,16 +12,12 @@
   },
   "devDependencies": {
     "@tap-format/spec": "^0.2.0",
-    "coveralls": "^3.0.0",
     "dependency-check": "^4.1.0",
-    "existy": "^1.0.1",
     "npm-run-all": "^4.0.2",
     "nyc": "^15.0.0",
     "snazzy": "^8.0.0",
     "standard": "^14.0.2",
-    "tape": "^4.7.0",
-    "tape-run": "^6.0.1",
-    "temporary-directory": "^1.0.2"
+    "tape": "^4.7.0"
   },
   "homepage": "https://github.com/bcomnes/jsonfeed-to-atom#readme",
   "keywords": [
@@ -39,7 +35,6 @@
   },
   "scripts": {
     "debug": "node --nolazy --inspect-brk=9229 node_modules/.bin/tape 'test.js'",
-    "report": "nyc report --reporter=text-lcov | coveralls",
     "test": "run-s test:*",
     "test:lint": "standard --verbose | snazzy",
     "test:tape": "nyc --reporter=lcov tape 'test.js' | tap-format-spec",
