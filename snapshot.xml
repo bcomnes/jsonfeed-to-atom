@@ -37,9 +37,7 @@
       <name>Bret Comnes</name>
       <uri>https://bret.io</uri>
     </author>
-    <content type="html">
-      <![CDATA[<p>A post with some tags</p>]]>
-    </content>
+    <content type="html"><![CDATA[<p>A post with some tags</p>]]></content>
     <link rel="alternate" href="https://example.com/tags"/>
     <category term="foo"/>
     <category term="bar"/>
@@ -53,9 +51,7 @@
       <name>Bret Comnes</name>
       <uri>https://bret.io</uri>
     </author>
-    <content type="html">
-      <![CDATA[<p>Attachments</p>]]>
-    </content>
+    <content type="html"><![CDATA[<p>Attachments</p>]]></content>
     <link rel="alternate" href="https://example.com/empty-attatchments"/>
     <link rel="enclosure" type="audio/mpeg" href="https://example.com/attatchments.mp4"/>
     <link rel="enclosure" type="audio/mpeg" href="https://example.com/attatchments-45.mp4" length="1234"/>
@@ -69,9 +65,7 @@
       <name>Bret Comnes</name>
       <uri>https://bret.io</uri>
     </author>
-    <content type="html">
-      <![CDATA[<p>Empty attachments</p>]]>
-    </content>
+    <content type="html"><![CDATA[<p>Empty attachments</p>]]></content>
     <link rel="alternate" href="https://example.com/empty-attatchments"/>
   </entry>
   <entry>
@@ -83,9 +77,7 @@
       <name>Bret Comnes</name>
       <uri>https://bret.io</uri>
     </author>
-    <content type="html">
-      <![CDATA[<p>A post with no URL!!</p>]]>
-    </content>
+    <content type="html"><![CDATA[<p>A post with no URL!!</p>]]></content>
     <link rel="related" href="https://example.com/some-external-link2"/>
   </entry>
   <entry>
@@ -97,9 +89,7 @@
       <name>Mr Guy</name>
       <uri>https://twitter.com/foo</uri>
     </author>
-    <content type="html">
-      <![CDATA[<p>A post with an author</p>]]>
-    </content>
+    <content type="html"><![CDATA[<p>A post with an author</p>]]></content>
     <link rel="alternate" href="https://example.com/some-external-link2rfdsfa"/>
   </entry>
   <entry>
@@ -111,9 +101,7 @@
       <name>Bret Comnes</name>
       <uri>https://bret.io</uri>
     </author>
-    <content type="html">
-      <![CDATA[<p>Hello, world!</p>]]>
-    </content>
+    <content type="html"><![CDATA[<p>Hello, world!</p>]]></content>
     <link rel="alternate" href="https://example.com/some-external-link"/>
     <link rel="related" href="https://bret.io/my-blog-post"/>
   </entry>
