@@ -43,5 +43,9 @@
     "update": "node generate-snapshot.js",
     "version": "run-s update && auto-changelog -p --template keepachangelog auto-changelog --breaking-pattern 'BREAKING:' && git add CHANGELOG.md snapshot.xml snapshot.json",
     "prepublishOnly": "git push --follow-tags && gh-release"
+  },
+  "funding": {
+    "type": "individual",
+    "url": "https://github.com/sponsors/bcomnes"
   }
 }
