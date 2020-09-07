@@ -11,6 +11,7 @@
     "xmlbuilder": "^15.1.1"
   },
   "devDependencies": {
+    "auto-changelog": "^2.0.0",
     "@tap-format/spec": "^0.2.0",
     "dependency-check": "^4.1.0",
     "npm-run-all": "^4.0.2",
@@ -40,6 +41,6 @@
     "test:tape": "nyc --reporter=lcov tape 'test.js' | tap-format-spec",
     "test:deps": "dependency-check package.json --missing --unused --no-dev",
     "update": "node generate-snapshot.js",
-    "version": "run-s update && git add snapshot.xml snapshot.json"
+    "version": "run-s update && auto-changelog -p --template keepachangelog auto-changelog --breaking-pattern 'BREAKING:' && git add CHANGELOG.md snapshot.xml snapshot.json"
   }
 }
