@@ -17,7 +17,7 @@
     "nyc": "^15.0.0",
     "snazzy": "^8.0.0",
     "standard": "^14.0.2",
-    "tape": "^4.7.0"
+    "tape": "^5.0.1"
   },
   "homepage": "https://github.com/bcomnes/jsonfeed-to-atom#readme",
   "keywords": [
