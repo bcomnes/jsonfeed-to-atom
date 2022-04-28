@@ -1,7 +1,7 @@
-var fs = require('fs')
-var jsonfeedToAtom = require('./')
-var jsonfeedToAtomObj = require('./jsonfeed-to-atom-object')
-var testFeed = require('./test-feed.json')
+const fs = require('fs')
+const jsonfeedToAtom = require('./')
+const jsonfeedToAtomObj = require('./jsonfeed-to-atom-object')
+const testFeed = require('./test-feed.json')
 
 const atomObj = jsonfeedToAtomObj(testFeed)
 const atomFeed = jsonfeedToAtom(testFeed)
