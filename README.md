@@ -126,8 +126,8 @@ Opts include:
 [1]: https://nodejs.org/api/documentation.html#documentation_stability_index
 [2]: https://img.shields.io/npm/v/jsonfeed-to-atom.svg?style=flat-square
 [3]: https://npmjs.org/package/jsonfeed-to-atom
-[4]: https://img.shields.io/travis/bcomnes/jsonfeed-to-atom/master.svg?style=flat-square
-[5]: https://travis-ci.org/bcomnes/jsonfeed-to-atom
+[4]: https://github.com/bcomnes/jsonfeed-to-atom/actions/workflows/test.yml/badge.svg
+[5]: https://github.com/bcomnes/jsonfeed-to-atom/actions/workflows/test.yml
 [8]: http://img.shields.io/npm/dm/jsonfeed-to-atom.svg?style=flat-square
 [9]: https://npmjs.org/package/jsonfeed-to-atom
 [10]: https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat-square
