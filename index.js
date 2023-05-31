@@ -1,4 +1,3 @@
-
 /**
  * Converts a parsed JSON feed to an atom feed document
  * @module jsonfeed-to-atom
