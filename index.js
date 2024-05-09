@@ -11,6 +11,11 @@ const jsonfeedToAtomObject = require('./jsonfeed-to-atom-object')
  */
 module.exports = function jsonfeedToAtom (jsonfeed, opts) {
   const feedObj = jsonfeedToAtomObject(jsonfeed, opts)
-  const feed = builder.create(feedObj, { encoding: 'utf-8' })
+  const feed = builder.create(feedObj, {
+    encoding: 'utf-8',
+    skipNullAttributes: true,
+    skipNullNodes: true,
+    invalidCharReplacement: ''
+  })
   return feed.end({ pretty: true })
 }
