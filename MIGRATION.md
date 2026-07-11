@@ -1,16 +1,32 @@
-# Migrating from jsonfeed-to-atom 1.x
+# Migrating from 1.x to 2.x
 
-The next major release modernizes the package around ESM and JSON Feed 1.1.
+The next major release modernizes `jsonfeed-to-atom` around ESM, JSON Feed 1.1, and generated TypeScript declarations.
 This guide covers the changes an existing consumer may need to make.
 
-## Requirements
+## What changes
 
-- Use Node.js 20.19 or newer and npm 10 or newer.
-- Pass feeds whose `version` is exactly `https://jsonfeed.org/version/1.1`.
-- Keep `feed_url` populated because the converter uses it for the Atom feed ID and self link.
-- Expect the package to be ESM-only.
+| Area | 1.x | 2.x |
+| --- | --- | --- |
+| Node.js | Older Node.js releases | Node.js 20.19 or newer |
+| Module format | CommonJS | ESM-only |
+| Feed input | JSON Feed 1.0 and compatible objects | JSON Feed 1.1 only |
+| Feed version | `https://jsonfeed.org/version/1` | `https://jsonfeed.org/version/1.1` |
+| Feed URL | Used when available | Required |
+| Authors | Singular `author` was common | Plural `authors` is preferred |
+| Public types | No supported generated schema types | JSON Feed and Atom types exported from the package root |
+| Atom object helper | Internal file-shaped object | Canonical Atom model from `jsonfeed-to-atom/object.js` |
+| XML generation | `xmlbuilder` | `xmlbuilder2` |
 
-## Update the import
+The default export still accepts a parsed JSON object and returns an Atom XML string.
+
+## Upgrade the runtime first
+
+Update local development, production, and CI to Node.js 20.19 or newer.
+The package also declares npm 10 or newer.
+
+Upgrade the runtime before changing imports so module-loading failures are easier to diagnose.
+
+## Move to an ESM import
 
 Replace the CommonJS import:
 
@@ -24,7 +40,7 @@ with an ESM import:
 import jsonfeedToAtom from 'jsonfeed-to-atom'
 ```
 
-If the rest of the application must remain CommonJS, load the package with a dynamic import:
+If the application must remain CommonJS, load the package at a narrow asynchronous boundary:
 
 ```js
 async function convertFeed (jsonFeed) {
@@ -33,12 +49,15 @@ async function convertFeed (jsonFeed) {
 }
 ```
 
-Do not add `"type": "module"` to an application without checking its other JavaScript files first.
+Do not add `"type": "module"` to an existing application without checking its other JavaScript files, tests, and configuration first.
 That setting changes how every `.js` file in the package is interpreted.
 
-## Update feeds to JSON Feed 1.1
+## Require JSON Feed 1.1
 
-Change the version URL and prefer the plural `authors` property:
+The converter now rejects a missing version, JSON Feed 1.0, and every version other than the exact JSON Feed 1.1 URL.
+Every converted feed must also contain `title`, `items`, and `feed_url`.
+
+Update feed producers and fixtures like this:
 
 ```diff
  {
@@ -58,32 +77,54 @@ Change the version URL and prefer the plural `authors` property:
  }
 ```
 
-Apply the same `author` to `authors` conversion to individual items.
-The singular property is deprecated but remains accepted because JSON Feed 1.1 still treats it as valid.
+Apply the same `author` to `authors` conversion to individual items when you control the producer.
+The singular `author` property is deprecated but remains accepted because it is still valid in JSON Feed 1.1.
 
-JSON Feed 1.1 also supports `language` on feeds and items and `hubs` for real-time notification endpoints.
-WebSub hubs are emitted as Atom links with `rel="hub"`.
+JSON Feed 1.1 `language` values become Atom `xml:lang` attributes.
+WebSub entries in `hubs` become Atom links with `rel="hub"`.
+
+## Use the generated public types
+
+The package now uses `json-schema-to-typescript` to generate its JSON Feed input types and Atom object-model types.
+Its `types.ts` declaration source re-exports those generated types as the supported public type surface.
+Consumers can import those types from the package root:
+
+```ts
+import type {
+  AtomEntry,
+  AtomFeed,
+  JSONFeed,
+  JsonfeedToAtomOptions
+} from 'jsonfeed-to-atom'
+```
+
+The public `JSONFeed` type pins `version` to the JSON Feed 1.1 URL and requires `feed_url` because the converter needs it at runtime.
+The default export and `feedURLFn` callback both use that generated input type.
+
+The package does not use an export map.
+Published files and schemas therefore remain available through open subpaths, while the package root remains the supported place to import public types.
+
+For example, a tool that needs the JSON Schema itself can import the published wrapper schema:
+
+```js
+import jsonFeedSchema from 'jsonfeed-to-atom/schemas/json-feed-1.1.json' with { type: 'json' }
+```
+
+Treat files under `lib/` as implementation details even though open package exports make deep imports possible.
 
 ## Update intermediate object consumers
 
 Consumers that only call the default export still receive an Atom XML string.
 
-The intermediate object helper is available through an open package subpath:
+Import the intermediate object helper from its documented open subpath:
 
 ```js
 import jsonfeedToAtomObject from 'jsonfeed-to-atom/object.js'
 ```
 
-It returns a typed Atom model rather than an object shaped for the old XML builder.
+The helper now returns a canonical Atom model rather than an object shaped for the old XML builder.
 
-JSON Feed and Atom model types are available from the package root:
-
-```ts
-import type { AtomFeed, JSONFeed } from 'jsonfeed-to-atom'
-```
-The most common property changes are:
-
-| 1.x object | New Atom model |
+| 1.x object | 2.x Atom model |
 | --- | --- |
 | `atom.feed.id` | `atom.id` |
 | `atom.feed.title` | `atom.title.value` |
@@ -94,22 +135,23 @@ The most common property changes are:
 | `author.name` | `author[0].name` |
 | `content[0]['#text']` | `content.value` |
 
-Code that imported `jsonfeed-to-atom-object.js` by file path should move to the supported `jsonfeed-to-atom/object.js` subpath.
+Code that imported `jsonfeed-to-atom-object.js` directly should move to `jsonfeed-to-atom/object.js`.
 
-## Review output changes
+## Review Atom output changes
 
-The generated Atom remains semantically equivalent, but string snapshots may change.
+The generated Atom remains semantically equivalent, but serialized XML and object snapshots may change.
 
-- The JSON Feed alternate link now uses `application/feed+json`.
+- The JSON Feed alternate link uses `application/feed+json`.
 - Feed and item languages are serialized as `xml:lang`.
 - Multiple JSON Feed authors become multiple Atom author elements.
-- JSON Feed author objects without a `name` are omitted because Atom requires author names.
+- Authors without a `name` are omitted because Atom person constructs require a name.
 - WebSub hubs become Atom hub links.
-- Enclosure titles are preserved and integer sizes become Atom `length` attributes.
-- If an item contains both `content_html` and `content_text`, HTML is used because Atom permits one content element per entry.
-- XML attribute ordering and CDATA formatting may differ after the move to `xmlbuilder2`.
+- Enclosure titles are preserved.
+- Integer attachment sizes become Atom `length` attributes.
+- When an item supplies both `content_html` and `content_text`, the HTML content is used because Atom permits one content element per entry.
+- XML attribute ordering, empty-element formatting, and CDATA formatting may differ after the move to `xmlbuilder2`.
 
-Review snapshot changes before accepting them instead of updating snapshots blindly.
+Review snapshot diffs for semantic changes before regenerating expected files.
 
 ## Check custom URL mapping
 
@@ -125,17 +167,20 @@ The default mapper changes a `.json` suffix to `.xml` and leaves URLs without th
 
 ## Migration checklist
 
-1. Upgrade the application runtime and CI matrix to Node.js 20.19 or newer.
-2. Replace CommonJS imports or use a dynamic import boundary.
-3. Change JSON Feed version URLs to the exact 1.1 URL.
-4. Replace singular author properties with author arrays where practical.
-5. Update direct intermediate-object consumers to the supported subpath and new model.
-6. Run tests, type checking, and production builds.
-7. Review and intentionally regenerate XML or object snapshots.
+1. Upgrade development, CI, and production to Node.js 20.19 or newer.
+2. Replace `require()` with a static ESM import or a narrow dynamic import.
+3. Change feed version URLs to exactly `https://jsonfeed.org/version/1.1`.
+4. Ensure every converted feed includes `title`, `items`, and `feed_url`.
+5. Replace singular author properties with author arrays where practical.
+6. Import public types from the package root.
+7. Move intermediate-object consumers to `jsonfeed-to-atom/object.js` and update their property access.
+8. Run focused feed tests, the full test suite, type checking, and the production build.
+9. Review XML and object snapshot changes before accepting them.
 
 These searches catch the most common remaining migration work:
 
 ```console
-rg "require\\(['\"]jsonfeed-to-atom|jsonfeed-to-atom-object"
+rg "require\(['\"]jsonfeed-to-atom|jsonfeed-to-atom-object|jsonfeed-to-atom/object"
 rg "https://jsonfeed.org/version/1['\"]"
+rg "atom\.feed|\['@|\['#text'\]"
 ```

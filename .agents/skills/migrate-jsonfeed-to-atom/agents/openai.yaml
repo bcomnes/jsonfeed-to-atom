@@ -1,4 +1,4 @@
 interface:
   display_name: "Migrate jsonfeed-to-atom"
-  short_description: "Upgrade consumers to ESM and JSON Feed 1.1"
-  default_prompt: "Use $migrate-jsonfeed-to-atom to upgrade this project from jsonfeed-to-atom 1.x."
+  short_description: "Upgrade consumers from 1.x to 2.x safely"
+  default_prompt: "Use $migrate-jsonfeed-to-atom to upgrade this project from jsonfeed-to-atom 1.x to 2.x."

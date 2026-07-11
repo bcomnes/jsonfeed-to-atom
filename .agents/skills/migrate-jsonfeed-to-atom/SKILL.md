@@ -1,50 +1,70 @@
 ---
 name: migrate-jsonfeed-to-atom
-description: Migrate applications from jsonfeed-to-atom 1.x to the ESM-only JSON Feed 1.1 release. Use when a project imports jsonfeed-to-atom with CommonJS, emits JSON Feed 1.0 documents, accesses jsonfeed-to-atom-object directly, has snapshots affected by the new Atom serializer, or needs its Node and CI requirements updated for the new package.
+description: Migrate applications from jsonfeed-to-atom 1.x to the ESM-only 2.x release that requires JSON Feed 1.1. Use when a project has CommonJS imports, JSON Feed 1.0 producers or fixtures, direct object-helper imports, old xmlbuilder-shaped Atom access, schema-type deep imports, affected snapshots, or Node and CI requirements below 20.19.
 ---
 
 # Migrate jsonfeed-to-atom
 
-Upgrade a consuming project without broad, unrelated module-system changes.
-Treat the consumer's tests and generated feed fixtures as the migration boundary.
+Upgrade the consumer without broad, unrelated module-system changes.
+Treat its feed producers, fixtures, imports, types, and snapshots as the migration boundary.
 
-## Inspect before editing
+## Inspect the consumer
 
 1. Read the package manifest, lockfile, Node engine, and CI runtime configuration.
-2. Find every package import, intermediate-object import, feed builder, JSON fixture, and related snapshot.
-3. Determine whether the project is already ESM, fully CommonJS, or mixed.
-4. Read the package's `MIGRATION.md` when it is available in the checked-out source or installed package.
+2. Read `MIGRATION.md` from the installed package or checked-out source when available.
+3. Find package imports, type imports, feed builders, JSON fixtures, intermediate-object access, and related snapshots.
+4. Determine whether the consumer is ESM, CommonJS, or mixed before editing module metadata.
 
-Start with searches like:
+Start with:
 
 ```console
-rg "jsonfeed-to-atom|jsonfeed.org/version/1|feed_url|authors?" .
+rg "jsonfeed-to-atom|jsonfeed.org/version/1|feed_url|authors?|atom\.feed|\['@|\['#text'\]" .
 ```
 
-Exclude dependency folders, generated coverage, and unrelated archived data when broad matches become noisy.
+Exclude dependency folders, generated coverage, and archived data when broad searches become noisy.
 
-## Choose the module boundary
+## Establish the runtime boundary
 
-- Use a static default import when the consumer is already ESM: `import jsonfeedToAtom from 'jsonfeed-to-atom'`.
+- Raise development, CI, and production to Node.js 20.19 or newer.
+- Use `import jsonfeedToAtom from 'jsonfeed-to-atom'` in ESM consumers.
 - Use `await import('jsonfeed-to-atom')` at a narrow asynchronous boundary when the application must remain CommonJS.
 - Convert the whole application to ESM only when that broader migration is explicitly in scope.
-- Do not add `"type": "module"` without checking all `.js` entry points, tests, configuration files, and scripts.
-- Raise the consumer and CI runtime to Node.js 20.19 or newer.
+- Do not add `"type": "module"` without checking every `.js` entry point, test, and configuration file.
 
 ## Update the feed contract
 
 1. Change feed versions to exactly `https://jsonfeed.org/version/1.1`.
-2. Convert feed-level and item-level `author` objects to `authors` arrays where the producer is under the user's control.
-3. Preserve singular `author` only when backward compatibility with other readers requires it; the new converter still accepts it.
-4. Preserve extension keys and existing item IDs.
-5. Ensure every feed has `title`, `items`, and `feed_url`; the converter requires `feed_url` to construct the Atom ID and self link.
-6. Keep both `content_html` and `content_text` if downstream JSON Feed readers need them, but expect the Atom conversion to choose HTML.
+2. Ensure every converted feed includes `title`, `items`, and `feed_url`.
+3. Convert feed-level and item-level `author` objects to `authors` arrays when the producer is under the user's control.
+4. Preserve singular `author` only when compatibility with other readers requires it.
+5. Preserve extension keys, item IDs, and downstream fields unrelated to conversion.
+6. Keep both content fields when other readers need them, but expect Atom conversion to prefer `content_html` over `content_text`.
 
-Do not blindly replace version strings in rejection tests, historical documentation, changelogs, or fixtures intentionally covering JSON Feed 1.0.
+Do not replace version strings in rejection tests, historical documentation, changelogs, or fixtures intentionally covering JSON Feed 1.0.
+
+## Update public types
+
+Import generated schema types from the package root:
+
+```ts
+import type {
+  AtomFeed,
+  JSONFeed,
+  JsonfeedToAtomOptions
+} from 'jsonfeed-to-atom'
+```
+
+- Treat `JSONFeed.version` as the exact JSON Feed 1.1 literal.
+- Populate `feed_url`; the public type and runtime both require it.
+- Replace direct imports from generated `lib/*-types` files with package-root type imports when practical.
+- Keep raw schema imports only when the consumer genuinely needs JSON Schema at runtime.
+
+The package intentionally has no export map, so published files remain open to deep imports.
+Prefer documented public paths over relying on internal `lib/` files.
 
 ## Update intermediate object consumers
 
-Replace file-path imports with:
+Use the documented open subpath:
 
 ```js
 import jsonfeedToAtomObject from 'jsonfeed-to-atom/object.js'
@@ -59,26 +79,32 @@ Adapt old XML-builder-shaped access to the canonical Atom model:
 - Feed and entry authors are arrays.
 - Entry content is one object rather than an array of XML nodes.
 
-Search for bracket access to `@` or `#` keys near Atom object usage; those often reveal indirect dependencies on the old shape.
+Search for bracket access to `@` or `#` keys near Atom usage to find indirect dependencies on the old shape.
 
-## Validate intentionally
+## Review serializer changes
 
-1. Install with the package manager implied by the lockfile.
-2. Run the consumer's focused feed tests, full test suite, type check, and production build when available.
-3. Exercise at least one HTML item, text item, author array, attachment, and custom URL mapper when the project uses those paths.
-4. Review XML and object snapshot diffs for semantic changes before regenerating expected files.
-5. Confirm that remaining JSON Feed 1.0 strings and CommonJS imports are intentional.
-6. Report any migration choice that expands beyond this package, especially a whole-project ESM conversion.
+Expect `application/feed+json`, `xml:lang`, WebSub hub links, multiple Atom authors, enclosure titles, integer enclosure lengths, and HTML preference when both content forms exist.
+Expect XML formatting changes from `xmlbuilder2`, including attribute ordering, empty elements, and CDATA layout.
+Authors without a name are omitted because Atom person constructs require one.
 
-Expected serializer differences include `application/feed+json`, `xml:lang`, WebSub hub links, multiple Atom authors, enclosure titles, HTML preference when both content forms exist, and formatting changes from `xmlbuilder2`.
-Authors without a `name` are omitted because an Atom person construct requires one.
+Review semantic snapshot differences before regenerating expected output.
+
+## Validate the migration
+
+1. Install with the package manager selected by the lockfile.
+2. Run focused feed tests, the full suite, type checking, and the production build.
+3. Exercise HTML content, text content, author arrays, attachments, language, hubs, and custom URL mapping when the consumer uses them.
+4. Confirm the root type imports and `jsonfeed-to-atom/object.js` resolve from the installed package.
+5. Confirm remaining JSON Feed 1.0 strings, CommonJS imports, and internal deep imports are intentional.
+6. Report any choice that expands beyond this dependency migration.
 
 ## Hand off
 
 Summarize:
 
-- the chosen ESM or dynamic-import strategy;
-- feed and author contract changes;
-- intermediate object migrations;
+- the ESM or dynamic-import strategy;
+- runtime and CI changes;
+- feed, author, and type-contract changes;
+- intermediate-object migrations;
 - snapshots intentionally refreshed;
-- checks run and any remaining blockers.
+- checks run and remaining blockers.
