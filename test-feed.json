@@ -1,5 +1,5 @@
 {
-  "version": "https://jsonfeed.org/version/1",
+  "version": "https://jsonfeed.org/version/1.1",
   "title": "bret.io log",
   "home_page_url": "https://bret.io",
   "feed_url": "https://bret.io/feed.json",
@@ -7,11 +7,20 @@
   "next_url": "https://bret.io/2017.json",
   "icon": "https://bret.io/icon-512x512.png",
   "favicon": "https://bret.io/favicon-64x64.png",
-  "author": {
-   "name": "Bret Comnes",
-   "url": "https://bret.io",
-   "avatar": "https://gravatar.com/avatar/8d8b82740cb7ca994449cccd1dfdef5f?size=512"
-  },
+  "language": "en-US",
+  "authors": [
+   {
+    "name": "Bret Comnes",
+    "url": "https://bret.io",
+    "avatar": "https://gravatar.com/avatar/8d8b82740cb7ca994449cccd1dfdef5f?size=512"
+   }
+  ],
+  "hubs": [
+   {
+    "type": "WebSub",
+    "url": "https://example.com/hub"
+   }
+  ],
   "items": [
    {
     "date_published": "2018-04-13T22:06:43.000Z",
@@ -73,11 +82,14 @@
     "content_html": "<p>A post with an author</p>",
     "title": "A post with an author",
     "url": "https://example.com/some-external-link2rfdsfa",
-    "author": {
-     "name": "Mr Guy",
-     "url": "https://twitter.com/foo",
-     "avatar": "https://gravatar.com/avatar/5fcbb4764c8c88f71aa83f4465ce4e0e?size=512"
-    },
+    "language": "en-GB",
+    "authors": [
+     {
+      "name": "Mr Guy",
+      "url": "https://twitter.com/foo",
+      "avatar": "https://gravatar.com/avatar/5fcbb4764c8c88f71aa83f4465ce4e0e?size=512"
+     }
+    ],
     "id": "https://example.com/some-external-link2rfdsfa-2018-04-08T22:06:43.000Z"
    },
    {

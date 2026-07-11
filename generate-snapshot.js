@@ -1,12 +1,21 @@
-const fs = require('fs')
-const jsonfeedToAtom = require('./')
-const jsonfeedToAtomObj = require('./jsonfeed-to-atom-object')
-const testFeed = require('./test-feed.json')
+import { readFile, writeFile } from 'node:fs/promises'
+import jsonfeedToAtom from './index.js'
+import jsonfeedToAtomObject from './jsonfeed-to-atom-object.js'
 
-const atomObj = jsonfeedToAtomObj(testFeed)
+/** @import { JSONFeed } from './lib/json-feed-types.js' */
+
+const testFeed = /** @type {JSONFeed} */ (JSON.parse(
+  await readFile(new URL('test-feed.json', import.meta.url), 'utf8')
+))
+const atomObject = jsonfeedToAtomObject(testFeed)
 const atomFeed = jsonfeedToAtom(testFeed)
 
-fs.writeFileSync('snapshot.xml', atomFeed)
-fs.writeFileSync('snapshot.json', JSON.stringify(atomObj, null, ' '))
+await Promise.all([
+  writeFile(new URL('snapshot.xml', import.meta.url), atomFeed),
+  writeFile(
+    new URL('snapshot.json', import.meta.url),
+    `${JSON.stringify(atomObject, null, 2)}\n`
+  )
+])
 
-console.log('update snapshot snapshot.xml')
+console.log('Updated snapshot.xml and snapshot.json')

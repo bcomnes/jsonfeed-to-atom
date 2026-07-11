@@ -1,136 +1,113 @@
 # jsonfeed-to-atom
 
-[![npm version][2]][3] [![build status][4]][5]
-[![downloads][8]][9] [![js-standard-style][10]][11]
+[![latest version](https://img.shields.io/npm/v/jsonfeed-to-atom.svg)](https://www.npmjs.com/package/jsonfeed-to-atom)
+[![Actions Status](https://github.com/bcomnes/jsonfeed-to-atom/workflows/tests/badge.svg)](https://github.com/bcomnes/jsonfeed-to-atom/actions)
 
-Convert a JSON feed to an atom feed.
+[![downloads](https://img.shields.io/npm/dm/jsonfeed-to-atom.svg)](https://npmtrends.com/jsonfeed-to-atom)
+![Types in JS](https://img.shields.io/badge/types_in_js-yes-brightgreen)
+[![neostandard javascript style](https://img.shields.io/badge/code_style-neostandard-7fffff?style=flat&labelColor=ff80ff)](https://github.com/neostandard/neostandard)
+[![Socket Badge](https://socket.dev/api/badge/npm/package/jsonfeed-to-atom)](https://socket.dev/npm/package/jsonfeed-to-atom)
 
-![JSON feed icon](/icon.png)
+Convert a [JSON Feed 1.1](https://www.jsonfeed.org/version/1.1/) document to an [Atom 1.0](https://www.rfc-editor.org/rfc/rfc4287) XML document.
 
-## Installation
+This package is ESM-only and requires Node.js 20 or newer.
+
 ```console
-$ npm install jsonfeed-to-atom
+npm install jsonfeed-to-atom
 ```
 
 ## Usage
 
 ```js
-const jsonfeedToAtom = require('jsonfeed-to-atom')
-const someJSONFeed = require('./load-some-json-feed-data.json')
+import jsonfeedToAtom from 'jsonfeed-to-atom'
 
-const atomFeed = jsonfeedToAtom(someJSONFeed) // Returns an atom formatted json feed
+const atomFeed = jsonfeedToAtom({
+  version: 'https://jsonfeed.org/version/1.1',
+  title: 'Example feed',
+  home_page_url: 'https://example.com',
+  feed_url: 'https://example.com/feed.json',
+  authors: [
+    {
+      name: 'Example Author',
+      url: 'https://example.com/about'
+    }
+  ],
+  items: [
+    {
+      id: 'https://example.com/posts/1',
+      url: 'https://example.com/posts/1',
+      title: 'Hello, world',
+      content_html: '<p>Hello, world!</p>',
+      date_published: '2026-01-01T00:00:00Z'
+    }
+  ]
+})
 ```
 
-Example input:
-
-```json
-{
- "version": "https://jsonfeed.org/version/1",
- "title": "bret.io log",
- "home_page_url": "https://bret.io",
- "feed_url": "https://bret.io/feed.json",
- "description": "A running log of announcements, projects and accomplishments.",
- "next_url": "https://bret.io/2017.json",
- "icon": "https://bret.io/icon-512x512.png",
- "author": {
-  "name": "Bret Comnes",
-  "url": "https://bret.io",
-  "avatar": "https://gravatar.com/avatar/8d8b82740cb7ca994449cccd1dfdef5f?size=512"
- },
- "items": [
-  {
-   "date_published": "2018-04-07T20:48:02.000Z",
-   "content_text": "Wee wooo this is some content. \n Maybe a new paragraph too",
-   "url": "https://bret.io/my-text-post",
-   "id": "https://bret.io/my-text-post-2018-04-07T20:48:02.000Z"
-  },
-  {
-   "date_published": "2018-04-07T22:06:43.000Z",
-   "content_html": "<p>Hello, world!</p>",
-   "title": "This is a blog title",
-   "url": "https://bret.io/my-blog-post",
-   "external_url": "https://example.com/some-external-link",
-   "id": "https://bret.io/my-blog-post-2018-04-07T22:06:43.000Z"
-  }
- ]
-}
-```
-
-Example output:
+The result is an Atom XML string:
 
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-  <title>bret.io log</title>
-  <id>https://bret.io/feed.xml</id>
-  <updated>2018-04-07T22:06:43.000Z</updated>
-  <link rel="self" type="application/atom+xml" href="https://bret.io/feed.xml"/>
-  <link rel="alternate" type="application/json" href="https://bret.io/feed.json"/>
-  <link rel="alternate" type="text/html" href="https://bret.io"/>
-  <link rel="next" href="https://bret.io/2017.xml"/>
+  <title>Example feed</title>
+  <id>https://example.com/feed.xml</id>
+  <updated>2026-01-01T00:00:00Z</updated>
+  <link href="https://example.com/feed.xml" rel="self" type="application/atom+xml"/>
+  <link href="https://example.com/feed.json" rel="alternate" type="application/feed+json"/>
+  <link href="https://example.com" rel="alternate" type="text/html"/>
   <author>
-    <name>Bret Comnes</name>
-    <uri>https://bret.io</uri>
+    <name>Example Author</name>
+    <uri>https://example.com/about</uri>
   </author>
-  <generator uri="https://github.com/bcomnes/jsonfeed-to-atom#readme" version="1.0.0">jsonfeed-to-atom</generator>
-  <rights>© 2018 Bret Comnes</rights>
-  <subtitle>A running log of announcements, projects and accomplishments.</subtitle>
-  <entry>
-    <id>https://bret.io/my-text-post-2018-04-07T20:48:02.000Z</id>
-    <title>Wee wooo this is some content.</title>
-    <updated>2018-04-07T20:48:02.000Z</updated>
-    <published>2018-04-07T20:48:02.000Z</published>
-    <content type="text">Wee wooo this is some content.
- Maybe a new paragraph too</content>
-    <link rel="alternate" href="https://bret.io/my-text-post"/>
-  </entry>
-  <entry>
-    <id>https://bret.io/my-blog-post-2018-04-07T22:06:43.000Z</id>
-    <title>This is a blog title</title>
-    <updated>2018-04-07T22:06:43.000Z</updated>
-    <published>2018-04-07T22:06:43.000Z</published>
-    <content type="html">
-      <![CDATA[<p>Hello, world!</p>]]>
-    </content>
-    <link rel="alternate" href="https://bret.io/my-blog-post"/>
-    <link rel="related" href="https://example.com/some-external-link"/>
-  </entry>
+  <!-- generator and entry elements omitted -->
 </feed>
 ```
 
 ## API
-### `jsonfeedToAtom(parsedJsonfeed, opts)`
-Coverts a parsed JSON feed into an atom feed.  Returns the string of the atom feed.
 
-Opts include:
+### `jsonfeedToAtom(jsonFeed, options?)`
+
+Converts a parsed JSON Feed 1.1 object into an Atom XML string.
+
+The converter requires the exact version URL `https://jsonfeed.org/version/1.1` and a `feed_url`, which is used as the Atom feed ID and self link.
+
+JSON Feed 1.1 `authors` arrays are mapped to Atom author elements.
+The deprecated singular `author` property remains accepted because it is still valid in JSON Feed 1.1.
+
+When an item contains both `content_html` and `content_text`, the HTML content is used because Atom permits only one content element per entry.
+
+The default URL mapper replaces a `.json` suffix with `.xml`.
+It can be customized for both the current feed and `next_url`:
 
 ```js
-{
-  // a function that returns the atom feed url
-  feedURLFn: (feedURL, jf) => feedURL.replace(/\.json\b/, '.xml')
-}
+const atomFeed = jsonfeedToAtom(jsonFeed, {
+  feedURLFn: (feedURL, jsonFeed) => `${feedURL}.atom`
+})
 ```
 
-## See also
+### Atom object model
 
-- [JSON Feed: Mapping RSS and Atom to JSON Feed](https://jsonfeed.org/mappingrssandatom)
-- [AtomEnabled: Developers > Syndication](https://mro.github.io/atomenabled.org/)  ([Archive](https://web.archive.org/web/20160113103647/http://atomenabled.org/developers/syndication/#link))
-- [bcomnes/generate-feed](https://github.com/bcomnes/generate-feed)
-- [Rss20AndAtom10Compared](http://www.intertwingly.net/wiki/pie/Rss20AndAtom10Compared)
-- [bcomnes/jsonfeed-to-rss](https://github.com/bcomnes/jsonfeed-to-rss): For podcasts or if you prefer RSS
+The intermediate Atom object model is available from the `jsonfeed-to-atom/object` export:
+
+```js
+import jsonfeedToAtomObject from 'jsonfeed-to-atom/object'
+
+const atom = jsonfeedToAtomObject(jsonFeed)
+```
+
+## Schemas and types
+
+The JSON Feed input and Atom output types are generated with [`json-schema-to-typescript`](https://github.com/bcherny/json-schema-to-typescript).
+
+The vendored JSON Feed schemas come from [SchemaStore](https://www.schemastore.org/json/), and the Atom model schema follows RFC 4287.
+The upstream commit IDs are recorded in the wrapper schemas under [`schemas/`](./schemas/).
+
+Regenerate the declaration sources after changing a schema:
+
+```console
+npm run build:schemas
+```
 
 ## License
-[MIT](https://tldrlegal.com/license/mit-license)
 
-[0]: https://img.shields.io/badge/stability-experimental-orange.svg?style=flat-square
-[1]: https://nodejs.org/api/documentation.html#documentation_stability_index
-[2]: https://img.shields.io/npm/v/jsonfeed-to-atom.svg?style=flat-square
-[3]: https://npmjs.org/package/jsonfeed-to-atom
-[4]: https://github.com/bcomnes/jsonfeed-to-atom/actions/workflows/test.yml/badge.svg
-[5]: https://github.com/bcomnes/jsonfeed-to-atom/actions/workflows/test.yml
-[8]: http://img.shields.io/npm/dm/jsonfeed-to-atom.svg?style=flat-square
-[9]: https://npmjs.org/package/jsonfeed-to-atom
-[10]: https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat-square
-[11]: https://github.com/feross/standard
-[12]: https://img.shields.io/coveralls/bcomnes/jsonfeed-to-atom/master.svg?style=flat-square
-[13]: https://coveralls.io/github/bcomnes/jsonfeed-to-atom
+MIT

@@ -1,20 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom">
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en-US">
   <title>bret.io log</title>
   <id>https://bret.io/feed.xml</id>
   <updated>2018-04-13T22:06:43.000Z</updated>
-  <link rel="self" type="application/atom+xml" href="https://bret.io/feed.xml"/>
-  <link rel="alternate" type="application/json" href="https://bret.io/feed.json"/>
-  <link rel="alternate" type="text/html" href="https://bret.io"/>
-  <link rel="next" href="https://bret.io/2017.xml"/>
+  <link href="https://bret.io/feed.xml" rel="self" type="application/atom+xml"/>
+  <link href="https://bret.io/feed.json" rel="alternate" type="application/feed+json"/>
+  <link href="https://bret.io" rel="alternate" type="text/html"/>
+  <link href="https://bret.io/2017.xml" rel="next"/>
+  <link href="https://example.com/hub" rel="hub"/>
   <author>
     <name>Bret Comnes</name>
     <uri>https://bret.io</uri>
   </author>
-  <generator uri="https://github.com/bcomnes/jsonfeed-to-atom#readme" version="1.2.5">jsonfeed-to-atom</generator>
+  <generator uri="https://github.com/bcomnes/jsonfeed-to-atom" version="1.2.5">jsonfeed-to-atom</generator>
   <icon>https://bret.io/favicon-64x64.png</icon>
   <logo>https://bret.io/icon-512x512.png</logo>
-  <rights>© 2025 Bret Comnes</rights>
+  <rights>© 2026 Bret Comnes</rights>
   <subtitle>A running log of announcements, projects and accomplishments.</subtitle>
   <entry>
     <id>a-unique-id</id>
@@ -26,7 +27,7 @@
       <uri>https://bret.io</uri>
     </author>
     <content type="text">ey, no link, nourl</content>
-    <summary>but it has a summary!</summary>
+    <summary type="text">but it has a summary!</summary>
   </entry>
   <entry>
     <id>https://example.com/tags-2018-04-12T22:06:43.000Z</id>
@@ -38,7 +39,7 @@
       <uri>https://bret.io</uri>
     </author>
     <content type="html"><![CDATA[<p>A post with some tags</p>]]></content>
-    <link rel="alternate" href="https://example.com/tags"/>
+    <link href="https://example.com/tags" rel="alternate"/>
     <category term="foo"/>
     <category term="bar"/>
   </entry>
@@ -52,9 +53,9 @@
       <uri>https://bret.io</uri>
     </author>
     <content type="html"><![CDATA[<p>Attachments</p>]]></content>
-    <link rel="alternate" href="https://example.com/empty-attatchments"/>
-    <link rel="enclosure" type="audio/mpeg" href="https://example.com/attatchments.mp4"/>
-    <link rel="enclosure" type="audio/mpeg" href="https://example.com/attatchments-45.mp4" length="1234"/>
+    <link href="https://example.com/empty-attatchments" rel="alternate"/>
+    <link href="https://example.com/attatchments.mp4" rel="enclosure" type="audio/mpeg" title="Hey this is a podcast"/>
+    <link href="https://example.com/attatchments-45.mp4" rel="enclosure" type="audio/mpeg" title="Hey this is another podcast" length="1234"/>
   </entry>
   <entry>
     <id>https://example.com/empty-attatchments-2018-04-10T22:06:43.000Z</id>
@@ -66,7 +67,7 @@
       <uri>https://bret.io</uri>
     </author>
     <content type="html"><![CDATA[<p>Empty attachments</p>]]></content>
-    <link rel="alternate" href="https://example.com/empty-attatchments"/>
+    <link href="https://example.com/empty-attatchments" rel="alternate"/>
   </entry>
   <entry>
     <id>https://example.com/some-external-link2-2018-04-09T22:06:43.000Z</id>
@@ -78,9 +79,9 @@
       <uri>https://bret.io</uri>
     </author>
     <content type="html"><![CDATA[<p>A post with no URL!!</p>]]></content>
-    <link rel="related" href="https://example.com/some-external-link2"/>
+    <link href="https://example.com/some-external-link2" rel="related"/>
   </entry>
-  <entry>
+  <entry xml:lang="en-GB">
     <id>https://example.com/some-external-link2rfdsfa-2018-04-08T22:06:43.000Z</id>
     <title>A post with an author</title>
     <updated>2018-04-08T22:06:43.000Z</updated>
@@ -90,7 +91,7 @@
       <uri>https://twitter.com/foo</uri>
     </author>
     <content type="html"><![CDATA[<p>A post with an author</p>]]></content>
-    <link rel="alternate" href="https://example.com/some-external-link2rfdsfa"/>
+    <link href="https://example.com/some-external-link2rfdsfa" rel="alternate"/>
   </entry>
   <entry>
     <id>https://bret.io/my-blog-post-2018-04-07T22:06:43.000Z</id>
@@ -102,8 +103,8 @@
       <uri>https://bret.io</uri>
     </author>
     <content type="html"><![CDATA[<p>Hello, world!</p>]]></content>
-    <link rel="alternate" href="https://example.com/some-external-link"/>
-    <link rel="related" href="https://bret.io/my-blog-post"/>
+    <link href="https://example.com/some-external-link" rel="alternate"/>
+    <link href="https://bret.io/my-blog-post" rel="related"/>
   </entry>
   <entry>
     <id>https://bret.io/my-text-post-2018-04-07T20:48:02.000Z</id>
@@ -116,6 +117,6 @@
     </author>
     <content type="text">Wee wooo this is some content. 
  Maybe a new paragraph too</content>
-    <link rel="alternate" href="https://bret.io/my-text-post"/>
+    <link href="https://bret.io/my-text-post" rel="alternate"/>
   </entry>
 </feed>
