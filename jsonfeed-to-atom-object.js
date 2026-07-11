@@ -1,5 +1,4 @@
-/** @import { AtomFeed, AtomEntry } from './lib/atom-feed-types.js' */
-/** @import { Author, JSONFeed, Item } from './lib/json-feed-types.js' */
+/** @import { AtomFeed, AtomEntry, Author, JSONFeed, Item, JsonfeedToAtomOptions } from './types.js' */
 
 import { createRequire } from 'node:module'
 import generateTitle from './lib/generate-title.js'
@@ -7,11 +6,6 @@ import generateTitle from './lib/generate-title.js'
 const JSON_FEED_VERSION = 'https://jsonfeed.org/version/1.1'
 const require = createRequire(import.meta.url)
 const packageInfo = /** @type {{ homepage: string, name: string, version: string }} */ (require('./package.json'))
-
-/**
- * @typedef {object} JsonfeedToAtomOptions
- * @property {(feedURL: string, jsonfeed: JSONFeed) => string} [feedURLFn]
- */
 
 /**
  * Converts a JSON Feed 1.1 document to a serializable Atom feed model.

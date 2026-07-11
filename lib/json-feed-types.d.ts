@@ -10,6 +10,7 @@
  */
 export type JSONFeed = JSONSchemaForTheJSONFeedFormat & {
   version: 'https://jsonfeed.org/version/1.1'
+  feed_url: string
   [k: string]: unknown
 }
 /**

@@ -47,7 +47,7 @@ Do not blindly replace version strings in rejection tests, historical documentat
 Replace file-path imports with:
 
 ```js
-import jsonfeedToAtomObject from 'jsonfeed-to-atom/object'
+import jsonfeedToAtomObject from 'jsonfeed-to-atom/object.js'
 ```
 
 Adapt old XML-builder-shaped access to the canonical Atom model:

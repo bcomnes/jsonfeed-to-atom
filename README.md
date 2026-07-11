@@ -89,10 +89,10 @@ const atomFeed = jsonfeedToAtom(jsonFeed, {
 
 ### Atom object model
 
-The intermediate Atom object model is available from the `jsonfeed-to-atom/object` export:
+The intermediate Atom object model is available from the open `jsonfeed-to-atom/object.js` subpath:
 
 ```js
-import jsonfeedToAtomObject from 'jsonfeed-to-atom/object'
+import jsonfeedToAtomObject from 'jsonfeed-to-atom/object.js'
 
 const atom = jsonfeedToAtomObject(jsonFeed)
 ```
@@ -100,6 +100,12 @@ const atom = jsonfeedToAtomObject(jsonFeed)
 ## Schemas and types
 
 The JSON Feed input and Atom output types are generated with [`json-schema-to-typescript`](https://github.com/bcherny/json-schema-to-typescript).
+
+The generated types are exported from the package root:
+
+```ts
+import type { AtomFeed, JSONFeed } from 'jsonfeed-to-atom'
+```
 
 The vendored JSON Feed schemas come from [SchemaStore](https://www.schemastore.org/json/), and the Atom model schema follows RFC 4287.
 The upstream commit IDs are recorded in the wrapper schemas under [`schemas/`](./schemas/).

@@ -34,6 +34,11 @@
     "index.js",
     "index.d.ts",
     "index.d.ts.map",
+    "types.d.ts",
+    "types.d.ts.map",
+    "object.js",
+    "object.d.ts",
+    "object.d.ts.map",
     "jsonfeed-to-atom-object.js",
     "jsonfeed-to-atom-object.d.ts",
     "jsonfeed-to-atom-object.d.ts.map",
@@ -48,18 +53,7 @@
   "type": "module",
   "module": "index.js",
   "main": "index.js",
-  "types": "index.d.ts",
-  "exports": {
-    ".": {
-      "types": "./index.d.ts",
-      "import": "./index.js"
-    },
-    "./object": {
-      "types": "./jsonfeed-to-atom-object.d.ts",
-      "import": "./jsonfeed-to-atom-object.js"
-    },
-    "./schemas/*": "./schemas/*"
-  },
+  "types": "types.d.ts",
   "repository": {
     "type": "git",
     "url": "https://github.com/bcomnes/jsonfeed-to-atom.git"

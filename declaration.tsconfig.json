@@ -9,6 +9,7 @@
   "exclude": [
     "**/*.test.js",
     "generate-snapshot.js",
+    "type-tests.ts",
     "node_modules",
     "coverage",
     ".github"

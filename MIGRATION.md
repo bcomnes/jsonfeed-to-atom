@@ -68,13 +68,19 @@ WebSub hubs are emitted as Atom links with `rel="hub"`.
 
 Consumers that only call the default export still receive an Atom XML string.
 
-The intermediate object helper now has an explicit export:
+The intermediate object helper is available through an open package subpath:
 
 ```js
-import jsonfeedToAtomObject from 'jsonfeed-to-atom/object'
+import jsonfeedToAtomObject from 'jsonfeed-to-atom/object.js'
 ```
 
 It returns a typed Atom model rather than an object shaped for the old XML builder.
+
+JSON Feed and Atom model types are available from the package root:
+
+```ts
+import type { AtomFeed, JSONFeed } from 'jsonfeed-to-atom'
+```
 The most common property changes are:
 
 | 1.x object | New Atom model |
@@ -88,7 +94,7 @@ The most common property changes are:
 | `author.name` | `author[0].name` |
 | `content[0]['#text']` | `content.value` |
 
-Code that imported `jsonfeed-to-atom-object.js` by file path should move to the supported `jsonfeed-to-atom/object` subpath.
+Code that imported `jsonfeed-to-atom-object.js` by file path should move to the supported `jsonfeed-to-atom/object.js` subpath.
 
 ## Review output changes
 

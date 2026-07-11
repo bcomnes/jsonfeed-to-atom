@@ -1,6 +1,4 @@
-/** @import { AtomFeed, AtomEntry } from './lib/atom-feed-types.js' */
-/** @import { JSONFeed } from './lib/json-feed-types.js' */
-/** @import { JsonfeedToAtomOptions } from './jsonfeed-to-atom-object.js' */
+/** @import { AtomFeed, AtomEntry, JSONFeed, JsonfeedToAtomOptions } from './types.js' */
 /** @import { XMLBuilder } from 'xmlbuilder2/lib/interfaces.js' */
 
 import { create } from 'xmlbuilder2'
