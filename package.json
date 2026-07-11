@@ -42,6 +42,7 @@
     "lib/**/*.d.ts",
     "lib/**/*.d.ts.map",
     "schemas/**/*",
+    "MIGRATION.md",
     "CHANGELOG.md"
   ],
   "license": "MIT",

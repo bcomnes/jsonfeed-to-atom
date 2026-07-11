@@ -12,6 +12,8 @@ Convert a [JSON Feed 1.1](https://www.jsonfeed.org/version/1.1/) document to an 
 
 This package is ESM-only and requires Node.js 20 or newer.
 
+Existing 1.x consumers should follow the [migration guide](./MIGRATION.md).
+
 ```console
 npm install jsonfeed-to-atom
 ```
