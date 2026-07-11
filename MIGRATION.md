@@ -5,7 +5,7 @@ This guide covers the changes an existing consumer may need to make.
 
 ## Requirements
 
-- Use Node.js 20 or newer and npm 10 or newer.
+- Use Node.js 20.19 or newer and npm 10 or newer.
 - Pass feeds whose `version` is exactly `https://jsonfeed.org/version/1.1`.
 - Keep `feed_url` populated because the converter uses it for the Atom feed ID and self link.
 - Expect the package to be ESM-only.
@@ -119,7 +119,7 @@ The default mapper changes a `.json` suffix to `.xml` and leaves URLs without th
 
 ## Migration checklist
 
-1. Upgrade the application runtime and CI matrix to Node.js 20 or newer.
+1. Upgrade the application runtime and CI matrix to Node.js 20.19 or newer.
 2. Replace CommonJS imports or use a dynamic import boundary.
 3. Change JSON Feed version URLs to the exact 1.1 URL.
 4. Replace singular author properties with author arrays where practical.

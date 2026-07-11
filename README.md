@@ -10,7 +10,7 @@
 
 Convert a [JSON Feed 1.1](https://www.jsonfeed.org/version/1.1/) document to an [Atom 1.0](https://www.rfc-editor.org/rfc/rfc4287) XML document.
 
-This package is ESM-only and requires Node.js 20 or newer.
+This package is ESM-only and requires Node.js 20.19 or newer.
 
 Existing 1.x consumers should follow the [migration guide](./MIGRATION.md).
 

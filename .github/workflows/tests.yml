@@ -13,7 +13,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest]
-        node: ['lts/*']
+        node: ['20.19.0', 'lts/*']
 
     steps:
     - uses: actions/checkout@v7
@@ -23,6 +23,7 @@ jobs:
         node-version: ${{ matrix.node }}
     - run: npm i
     - run: npm test --color=always
+    - run: npm audit --audit-level=high
 
   automerge:
     needs: test

@@ -12,15 +12,14 @@
   },
   "devDependencies": {
     "@voxpelli/tsconfig": "^16.2.1",
-    "@types/node": "^26.0.0",
+    "@types/node": "^20.19.0",
     "json-schema-to-typescript": "^15.0.4",
     "neostandard": "^0.13.0",
-    "npm-run-all2": "^9.0.2",
     "releasearoni": "^0.2.0",
     "typescript": "~6.0.3"
   },
   "engines": {
-    "node": ">=20",
+    "node": ">=20.19",
     "npm": ">=10"
   },
   "homepage": "https://github.com/bcomnes/jsonfeed-to-atom",
@@ -68,18 +67,18 @@
   "scripts": {
     "prepublishOnly": "npm run build && releasearoni",
     "postpublish": "npm run clean",
-    "test": "run-s test:*",
+    "test": "npm run test:lint && npm run test:tsc && npm run test:node-test",
     "test:lint": "eslint",
     "test:tsc": "tsc",
     "test:node-test": "node --experimental-test-coverage --test-reporter=spec --test-reporter=lcov --test-reporter-destination=stdout --test-reporter-destination=lcov.info --test",
     "update": "node generate-snapshot.js",
     "version": "releasearoni version",
-    "build": "npm run clean && run-s build:schemas build:declaration",
-    "build:schemas": "run-p build:schema:*",
+    "build": "npm run clean && npm run build:schemas && npm run build:declaration",
+    "build:schemas": "npm run build:schema:json-feed && npm run build:schema:atom",
     "build:schema:json-feed": "json2ts -i schemas/json-feed-1.1.json -o lib/json-feed-types.d.ts --style.singleQuote --no-style.semi",
     "build:schema:atom": "json2ts -i schemas/atom-feed.json -o lib/atom-feed-types.d.ts --style.singleQuote --no-style.semi",
     "build:declaration": "tsc -p declaration.tsconfig.json",
-    "clean": "run-p clean:*",
+    "clean": "npm run clean:declarations-top && npm run clean:declarations-lib",
     "clean:declarations-top": "rm -rf $(find . -maxdepth 1 -type f -name '*.d.ts*')",
     "clean:declarations-lib": "rm -rf $(find lib -type f -name '*.d.ts*' ! -name '*-types.d.ts')"
   },

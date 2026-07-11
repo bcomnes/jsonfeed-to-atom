@@ -29,7 +29,7 @@ Exclude dependency folders, generated coverage, and unrelated archived data when
 - Use `await import('jsonfeed-to-atom')` at a narrow asynchronous boundary when the application must remain CommonJS.
 - Convert the whole application to ESM only when that broader migration is explicitly in scope.
 - Do not add `"type": "module"` without checking all `.js` entry points, tests, configuration files, and scripts.
-- Raise the consumer and CI runtime to Node.js 20 or newer.
+- Raise the consumer and CI runtime to Node.js 20.19 or newer.
 
 ## Update the feed contract
 
