@@ -18,7 +18,7 @@
   <rights>© 2026 Bret Comnes</rights>
   <subtitle>A running log of announcements, projects and accomplishments.</subtitle>
   <entry>
-    <id>a-unique-id</id>
+    <id>https://bret.io/feed.json#jsonfeed-id=a-unique-id</id>
     <title>but it has a summary!</title>
     <updated>2018-04-13T22:06:43.000Z</updated>
     <published>2018-04-13T22:06:43.000Z</published>

@@ -13,6 +13,9 @@ This guide covers the changes an existing consumer may need to make.
 | Feed version | `https://jsonfeed.org/version/1` | `https://jsonfeed.org/version/1.1` |
 | Feed URL | Used when available | Required |
 | Authors | Singular `author` was common | Plural `authors` is preferred |
+| Atom authors | Missing authors were passed through | A named feed author or named authors on every item are required |
+| Item IDs | Copied directly | Non-IRI strings become stable feed-scoped Atom IRIs |
+| Item dates | Copied directly | Normalized to RFC 3339 UTC timestamps |
 | Public types | No supported generated schema types | JSON Feed and Atom types exported from the package root |
 | Atom object helper | Internal file-shaped object | Canonical Atom model from `jsonfeed-to-atom/object.js` |
 | XML generation | `xmlbuilder` | `xmlbuilder2` |
@@ -79,9 +82,30 @@ Update feed producers and fixtures like this:
 
 Apply the same `author` to `authors` conversion to individual items when you control the producer.
 The singular `author` property is deprecated but remains accepted because it is still valid in JSON Feed 1.1.
+Atom requires a named feed author unless every entry has a named author.
+The converter now rejects feeds that cannot satisfy that requirement without inventing author data.
 
 JSON Feed 1.1 `language` values become Atom `xml:lang` attributes.
-WebSub entries in `hubs` become Atom links with `rel="hub"`.
+[WebSub](https://www.w3.org/TR/2026/REC-websub-20260602/) entries in `hubs` become Atom links with `rel="hub"`.
+
+## Review IDs and dates
+
+JSON Feed permits arbitrary strings for item IDs, while Atom requires absolute IRIs.
+The converter preserves absolute IDs and maps other strings to stable fragments scoped to `feed_url`:
+
+```text
+entry 1 -> https://example.com/feed.json#jsonfeed-id=entry%201
+```
+
+Update snapshots or downstream object-model assertions that expected the original relative ID.
+
+JSON Feed item dates are normalized to RFC 3339 UTC timestamps before they are emitted as Atom dates:
+
+```text
+2026-01-01T01:00:00+01:00 -> 2026-01-01T00:00:00.000Z
+```
+
+The converter rejects dates that cannot be parsed rather than emitting invalid Atom.
 
 ## Use the generated public types
 
@@ -145,6 +169,9 @@ The generated Atom remains semantically equivalent, but serialized XML and objec
 - Feed and item languages are serialized as `xml:lang`.
 - Multiple JSON Feed authors become multiple Atom author elements.
 - Authors without a `name` are omitted because Atom person constructs require a name.
+- A feed without a named author is rejected unless every item has a named author.
+- Relative or otherwise non-IRI item IDs become stable feed-scoped IRIs.
+- Item dates are normalized to RFC 3339 UTC timestamps.
 - WebSub hubs become Atom hub links.
 - Enclosure titles are preserved.
 - Integer attachment sizes become Atom `length` attributes.
@@ -172,10 +199,12 @@ The default mapper changes a `.json` suffix to `.xml` and leaves URLs without th
 3. Change feed version URLs to exactly `https://jsonfeed.org/version/1.1`.
 4. Ensure every converted feed includes `title`, `items`, and `feed_url`.
 5. Replace singular author properties with author arrays where practical.
-6. Import public types from the package root.
-7. Move intermediate-object consumers to `jsonfeed-to-atom/object.js` and update their property access.
-8. Run focused feed tests, the full test suite, type checking, and the production build.
-9. Review XML and object snapshot changes before accepting them.
+6. Ensure the feed has a named author or every item has a named author.
+7. Review non-IRI item IDs and date strings for normalized output.
+8. Import public types from the package root.
+9. Move intermediate-object consumers to `jsonfeed-to-atom/object.js` and update their property access.
+10. Run focused feed tests, the full test suite, type checking, and the production build.
+11. Review XML and object snapshot changes before accepting them.
 
 These searches catch the most common remaining migration work:
 

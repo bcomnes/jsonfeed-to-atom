@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "$comment": "Modified from SchemaStore commit 2bddc5b460260b841408495fbcb31a267d1bbeb1 only to add json-schema-to-typescript tsType hints for extension properties.",
+  "$comment": "Modified from SchemaStore commit 01e00802b38350cb7ec257b11c456639a5cd0acf only to add json-schema-to-typescript tsType hints for extension properties.",
   "additionalProperties": false,
   "definitions": {
     "attachment": {

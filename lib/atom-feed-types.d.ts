@@ -16,7 +16,10 @@ export interface AtomFeed {
    * The feed language serialized as xml:lang.
    */
   language?: string
-  author?: AtomPerson[]
+  /**
+   * @minItems 1
+   */
+  author?: [AtomPerson, ...AtomPerson[]]
   link?: AtomLink[]
   generator?: AtomGenerator
   icon?: string
@@ -56,7 +59,10 @@ export interface AtomEntry {
    * The entry language serialized as xml:lang.
    */
   language?: string
-  author?: AtomPerson[]
+  /**
+   * @minItems 1
+   */
+  author?: [AtomPerson, ...AtomPerson[]]
   content?: AtomContent
   summary?: AtomTextConstruct
   link?: AtomLink[]

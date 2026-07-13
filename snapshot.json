@@ -48,7 +48,7 @@
   "subtitle": "A running log of announcements, projects and accomplishments.",
   "entry": [
     {
-      "id": "a-unique-id",
+      "id": "https://bret.io/feed.json#jsonfeed-id=a-unique-id",
       "title": {
         "value": "but it has a summary!",
         "type": "text"

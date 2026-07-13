@@ -75,8 +75,16 @@ The converter requires the exact version URL `https://jsonfeed.org/version/1.1` 
 
 JSON Feed 1.1 `authors` arrays are mapped to Atom author elements.
 The deprecated singular `author` property remains accepted because it is still valid in JSON Feed 1.1.
+To satisfy Atom, a feed must have a named author or every item must have a named author.
+
+Absolute JSON Feed item IDs are preserved.
+Other string IDs are converted to stable absolute IRIs scoped to `feed_url`.
+
+Item dates are normalized to RFC 3339 UTC timestamps, and unparseable dates are rejected.
 
 When an item contains both `content_html` and `content_text`, the HTML content is used because Atom permits only one content element per entry.
+
+JSON Feed [WebSub](https://www.w3.org/TR/2026/REC-websub-20260602/) hubs are emitted as Atom links with `rel="hub"`.
 
 The default URL mapper replaces a `.json` suffix with `.xml`.
 It can be customized for both the current feed and `next_url`:

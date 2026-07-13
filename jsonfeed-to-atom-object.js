@@ -1,9 +1,10 @@
-/** @import { AtomFeed, AtomEntry, Author, JSONFeed, Item, JsonfeedToAtomOptions } from './types.js' */
+/** @import { AtomFeed, AtomEntry, AtomPerson, Author, JSONFeed, Item, JsonfeedToAtomOptions } from './types.js' */
 
 import { createRequire } from 'node:module'
 import generateTitle from './lib/generate-title.js'
 
 const JSON_FEED_VERSION = 'https://jsonfeed.org/version/1.1'
+const ATOM_DATE_PATTERN = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})(?:\.(\d+))?(?:Z|([+-])(\d{2}):(\d{2}))$/
 const require = createRequire(import.meta.url)
 const packageInfo = /** @type {{ homepage: string, name: string, version: string }} */ (require('./package.json'))
 
@@ -25,7 +26,10 @@ export default function jsonfeedToAtomObject (jsonfeed, options = {}) {
   if (!feedURL) throw new Error('jsonfeed-to-atom: missing feed_url')
   if (!Array.isArray(jsonfeed.items)) throw new Error('jsonfeed-to-atom: missing items')
 
+  assertAbsoluteIRI(feedURL, 'feed_url')
+
   const atomFeedURL = feedURLFn(feedURL, jsonfeed)
+  assertAbsoluteIRI(atomFeedURL, 'mapped feed URL')
   const now = new Date()
   const authors = atomAuthors(jsonfeed)
 
@@ -45,7 +49,7 @@ export default function jsonfeedToAtomObject (jsonfeed, options = {}) {
     }
   }
 
-  if (authors.length > 0) atom.author = authors
+  if (authors.length > 0) atom.author = /** @type {[AtomPerson, ...AtomPerson[]]} */ (authors)
   if (jsonfeed.language) atom.language = jsonfeed.language
   if (jsonfeed.home_page_url) {
     atom.link?.push({
@@ -55,7 +59,9 @@ export default function jsonfeedToAtomObject (jsonfeed, options = {}) {
     })
   }
   if (jsonfeed.next_url) {
-    atom.link?.push({ rel: 'next', href: feedURLFn(jsonfeed.next_url, jsonfeed) })
+    const nextURL = feedURLFn(jsonfeed.next_url, jsonfeed)
+    assertAbsoluteIRI(nextURL, 'mapped next_url')
+    atom.link?.push({ rel: 'next', href: nextURL })
   }
   for (const hub of jsonfeed.hubs ?? []) {
     if (hub.type.toLowerCase() === 'websub') {
@@ -69,24 +75,18 @@ export default function jsonfeedToAtomObject (jsonfeed, options = {}) {
   if (authors[0]?.name) atom.rights = `© ${now.getFullYear()} ${authors[0].name}`
   if (jsonfeed.description) atom.subtitle = jsonfeed.description
 
-  let latestTimestamp = Number.NEGATIVE_INFINITY
-  let latestDate
-  atom.entry = jsonfeed.items.map(item => {
-    const entry = atomEntry(item, jsonfeed, now)
+  atom.entry = jsonfeed.items.map(item => atomEntry(item, jsonfeed, now))
 
-    for (const date of [item.date_published, item.date_modified]) {
-      if (!date) continue
-      const timestamp = Date.parse(date)
-      if (timestamp > latestTimestamp) {
-        latestTimestamp = timestamp
-        latestDate = date
-      }
-    }
+  if (authors.length === 0 && atom.entry.some(entry => !entry.author?.length)) {
+    throw new Error('jsonfeed-to-atom: Atom requires a named feed author or named authors on every item')
+  }
 
-    return entry
-  })
-
-  if (latestDate !== undefined) atom.updated = latestDate
+  const [firstEntry, ...remainingEntries] = atom.entry
+  if (firstEntry) {
+    atom.updated = remainingEntries.reduce((latest, entry) => (
+      Date.parse(entry.updated) > Date.parse(latest) ? entry.updated : latest
+    ), firstEntry.updated)
+  }
   return atom
 }
 
@@ -97,18 +97,25 @@ export default function jsonfeedToAtomObject (jsonfeed, options = {}) {
  * @returns {AtomEntry}
  */
 function atomEntry (item, jsonfeed, now) {
+  const published = item.date_published
+    ? atomDate(item.date_published, 'date_published')
+    : undefined
+  const updated = item.date_modified
+    ? atomDate(item.date_modified, 'date_modified')
+    : published ?? now.toISOString()
+
   /** @type {AtomEntry} */
   const entry = {
-    id: item.id,
+    id: atomID(item.id, jsonfeed.feed_url),
     title: { value: generateTitle(item), type: 'text' },
-    updated: item.date_modified || item.date_published || now.toISOString(),
+    updated,
     link: []
   }
 
-  if (item.date_published) entry.published = item.date_published
+  if (published) entry.published = published
 
   const authors = atomAuthors(item, jsonfeed)
-  if (authors.length > 0) entry.author = authors
+  if (authors.length > 0) entry.author = /** @type {[AtomPerson, ...AtomPerson[]]} */ (authors)
   if (item.language) entry.language = item.language
 
   if (item.content_html !== undefined) {
@@ -178,4 +185,86 @@ function atomAuthors (source, fallback) {
  */
 function defaultFeedURL (feedURL) {
   return feedURL.replace(/\.json\b/, '.xml')
+}
+
+/**
+ * Preserves absolute JSON Feed item IDs and scopes arbitrary string IDs to the feed URL.
+ *
+ * @param {string} itemID
+ * @param {string} feedURL
+ * @returns {string}
+ */
+function atomID (itemID, feedURL) {
+  try {
+    // eslint-disable-next-line no-new
+    new URL(itemID)
+    return itemID
+  } catch {
+    const id = new URL(feedURL)
+    id.hash = `jsonfeed-id=${encodeURIComponent(itemID)}`
+    return id.href
+  }
+}
+
+/**
+ * Normalizes a JSON Feed ISO 8601 date to the RFC 3339 form required by Atom.
+ *
+ * @param {string} value
+ * @param {string} field
+ * @returns {string}
+ */
+function atomDate (value, field) {
+  const match = ATOM_DATE_PATTERN.exec(value)
+  if (!match) {
+    throw new Error(`jsonfeed-to-atom: invalid ${field}`)
+  }
+
+  const [, year, month, day, hour, minute, second, fraction, offsetSign, offsetHour, offsetMinute] = match
+  const yearNumber = Number(year)
+  const monthNumber = Number(month)
+  const dayNumber = Number(day)
+  const hourNumber = Number(hour)
+  const minuteNumber = Number(minute)
+  const secondNumber = Number(second)
+  const offsetHourNumber = Number(offsetHour ?? 0)
+  const offsetMinuteNumber = Number(offsetMinute ?? 0)
+  const calendar = new Date(0)
+  calendar.setUTCFullYear(yearNumber, monthNumber, 0)
+
+  if (
+    monthNumber < 1 ||
+    monthNumber > 12 ||
+    dayNumber < 1 ||
+    dayNumber > calendar.getUTCDate() ||
+    hourNumber > 23 ||
+    minuteNumber > 59 ||
+    secondNumber > 60 ||
+    offsetHourNumber > 23 ||
+    offsetMinuteNumber > 59
+  ) {
+    throw new Error(`jsonfeed-to-atom: invalid ${field}`)
+  }
+
+  const millisecond = Number((fraction ?? '').padEnd(3, '0').slice(0, 3))
+  const date = new Date(0)
+  date.setUTCFullYear(yearNumber, monthNumber - 1, dayNumber)
+  date.setUTCHours(hourNumber, minuteNumber, Math.min(secondNumber, 59), millisecond)
+
+  const offset = (offsetHourNumber * 60 + offsetMinuteNumber) * 60 * 1000
+  const signedOffset = offsetSign === '+' ? -offset : offsetSign === '-' ? offset : 0
+  const leapSecond = secondNumber === 60 ? 1000 : 0
+  return new Date(date.valueOf() + signedOffset + leapSecond).toISOString()
+}
+
+/**
+ * @param {string} value
+ * @param {string} field
+ */
+function assertAbsoluteIRI (value, field) {
+  try {
+    // eslint-disable-next-line no-new
+    new URL(value)
+  } catch {
+    throw new Error(`jsonfeed-to-atom: invalid ${field}; absolute IRI required`)
+  }
 }

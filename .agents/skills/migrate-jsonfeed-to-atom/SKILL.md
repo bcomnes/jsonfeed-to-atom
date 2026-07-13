@@ -1,6 +1,6 @@
 ---
 name: migrate-jsonfeed-to-atom
-description: Migrate applications from jsonfeed-to-atom 1.x to the ESM-only 2.x release that requires JSON Feed 1.1. Use when a project has CommonJS imports, JSON Feed 1.0 producers or fixtures, direct object-helper imports, old xmlbuilder-shaped Atom access, schema-type deep imports, affected snapshots, or Node and CI requirements below 20.19.
+description: Migrate applications from jsonfeed-to-atom 1.x to the ESM-only 2.x release that requires JSON Feed 1.1 and RFC 4287-compatible Atom data. Use when a project has CommonJS imports, JSON Feed 1.0 producers or fixtures, missing named authors, non-IRI item IDs, unnormalized dates, direct object-helper imports, old xmlbuilder-shaped Atom access, schema-type deep imports, affected snapshots, or Node and CI requirements below 20.19.
 ---
 
 # Migrate jsonfeed-to-atom
@@ -39,8 +39,17 @@ Exclude dependency folders, generated coverage, and archived data when broad sea
 4. Preserve singular `author` only when compatibility with other readers requires it.
 5. Preserve extension keys, item IDs, and downstream fields unrelated to conversion.
 6. Keep both content fields when other readers need them, but expect Atom conversion to prefer `content_html` over `content_text`.
+7. Ensure the feed has a named author or every item has a named author.
 
 Do not replace version strings in rejection tests, historical documentation, changelogs, or fixtures intentionally covering JSON Feed 1.0.
+
+## Account for Atom normalization
+
+- Expect absolute item IDs to remain unchanged.
+- Expect other item ID strings to become stable absolute IRIs scoped to `feed_url`.
+- Expect item dates with offsets to become equivalent RFC 3339 UTC timestamps.
+- Fix dates that cannot be parsed because the converter now rejects them.
+- Review fixtures with authors that have only a URL or avatar because Atom requires a name.
 
 ## Update public types
 
@@ -83,7 +92,7 @@ Search for bracket access to `@` or `#` keys near Atom usage to find indirect de
 
 ## Review serializer changes
 
-Expect `application/feed+json`, `xml:lang`, WebSub hub links, multiple Atom authors, enclosure titles, integer enclosure lengths, and HTML preference when both content forms exist.
+Expect `application/feed+json`, `xml:lang`, WebSub hub links, multiple Atom authors, normalized item IDs and dates, enclosure titles, integer enclosure lengths, and HTML preference when both content forms exist.
 Expect XML formatting changes from `xmlbuilder2`, including attribute ordering, empty elements, and CDATA layout.
 Authors without a name are omitted because Atom person constructs require one.
 
@@ -93,7 +102,7 @@ Review semantic snapshot differences before regenerating expected output.
 
 1. Install with the package manager selected by the lockfile.
 2. Run focused feed tests, the full suite, type checking, and the production build.
-3. Exercise HTML content, text content, author arrays, attachments, language, hubs, and custom URL mapping when the consumer uses them.
+3. Exercise HTML content, text content, feed and item authors, arbitrary item IDs, offset dates, attachments, language, hubs, and custom URL mapping when the consumer uses them.
 4. Confirm the root type imports and `jsonfeed-to-atom/object.js` resolve from the installed package.
 5. Confirm remaining JSON Feed 1.0 strings, CommonJS imports, and internal deep imports are intentional.
 6. Report any choice that expands beyond this dependency migration.
@@ -104,7 +113,7 @@ Summarize:
 
 - the ESM or dynamic-import strategy;
 - runtime and CI changes;
-- feed, author, and type-contract changes;
+- feed, author, ID, date, and type-contract changes;
 - intermediate-object migrations;
 - snapshots intentionally refreshed;
 - checks run and remaining blockers.

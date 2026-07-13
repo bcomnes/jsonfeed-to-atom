@@ -3,6 +3,7 @@
   "$id": "https://github.com/bcomnes/jsonfeed-to-atom/schemas/atom-feed.json",
   "title": "AtomFeed",
   "description": "An Atom 1.0 feed model used before RFC 4287 XML serialization.",
+  "$comment": "The converter enforces RFC 4287's conditional author requirement: the feed has a named author or every entry has one.",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -28,6 +29,7 @@
     },
     "author": {
       "type": "array",
+      "minItems": 1,
       "items": {
         "$ref": "#/$defs/person"
       }
@@ -220,6 +222,7 @@
         },
         "author": {
           "type": "array",
+          "minItems": 1,
           "items": {
             "$ref": "#/$defs/person"
           }

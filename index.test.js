@@ -39,6 +39,13 @@ test('requires a JSON Feed 1.1 document', () => {
   assert.throws(() => jsonfeedToAtom(asJSONFeed({
     version: 'https://jsonfeed.org/version/1.1',
     title: 'A feed title',
+    feed_url: 'not an absolute URL',
+    items: []
+  })), /invalid feed_url; absolute IRI required/)
+
+  assert.throws(() => jsonfeedToAtom(asJSONFeed({
+    version: 'https://jsonfeed.org/version/1.1',
+    title: 'A feed title',
     feed_url: 'https://jsonfeed.org/feed.json'
   })), /missing items/)
 })
@@ -144,6 +151,111 @@ test('supports deprecated singular authors in JSON Feed 1.1', () => {
 
   assert.deepEqual(atom.author, [{ name: 'Feed Author' }])
   assert.deepEqual(atom.entry?.[0]?.author, [{ name: 'Entry Author' }])
+})
+
+test('requires enough named authors for a valid Atom feed', () => {
+  assert.throws(() => jsonfeedToAtomObject({
+    version: 'https://jsonfeed.org/version/1.1',
+    title: 'A feed',
+    feed_url: 'https://example.com/feed.json',
+    items: [{
+      id: 'entry',
+      content_text: 'Body'
+    }]
+  }), /Atom requires a named feed author or named authors on every item/)
+
+  const atom = jsonfeedToAtomObject({
+    version: 'https://jsonfeed.org/version/1.1',
+    title: 'A feed',
+    feed_url: 'https://example.com/feed.json',
+    items: [{
+      id: 'entry',
+      content_text: 'Body',
+      authors: [{ name: 'Entry Author' }]
+    }]
+  })
+
+  assert.equal(atom.author, undefined)
+  assert.deepEqual(atom.entry?.[0]?.author, [{ name: 'Entry Author' }])
+})
+
+test('maps arbitrary JSON Feed item IDs to stable Atom IRIs', () => {
+  const atom = jsonfeedToAtomObject({
+    version: 'https://jsonfeed.org/version/1.1',
+    title: 'A feed',
+    feed_url: 'https://example.com/feed.json',
+    authors: [{ name: 'Feed Author' }],
+    items: [
+      {
+        id: 'entry 1',
+        content_text: 'Body'
+      },
+      {
+        id: 'https://example.com/entries/2',
+        content_text: 'Body'
+      }
+    ]
+  })
+
+  assert.equal(atom.entry?.[0]?.id, 'https://example.com/feed.json#jsonfeed-id=entry%201')
+  assert.equal(atom.entry?.[1]?.id, 'https://example.com/entries/2')
+})
+
+test('normalizes item dates for Atom', () => {
+  const atom = jsonfeedToAtomObject({
+    version: 'https://jsonfeed.org/version/1.1',
+    title: 'A feed',
+    feed_url: 'https://example.com/feed.json',
+    authors: [{ name: 'Feed Author' }],
+    items: [{
+      id: 'entry',
+      content_text: 'Body',
+      date_published: '2026-01-01T01:00:00+01:00',
+      date_modified: '2026-01-02T02:30:00+02:30'
+    }]
+  })
+
+  assert.equal(atom.updated, '2026-01-02T00:00:00.000Z')
+  assert.equal(atom.entry?.[0]?.published, '2026-01-01T00:00:00.000Z')
+  assert.equal(atom.entry?.[0]?.updated, '2026-01-02T00:00:00.000Z')
+
+  const leapSecond = jsonfeedToAtomObject({
+    version: 'https://jsonfeed.org/version/1.1',
+    title: 'A feed',
+    feed_url: 'https://example.com/feed.json',
+    authors: [{ name: 'Feed Author' }],
+    items: [{
+      id: 'entry',
+      content_text: 'Body',
+      date_published: '2016-12-31T23:59:60Z'
+    }]
+  })
+
+  assert.equal(leapSecond.entry?.[0]?.published, '2017-01-01T00:00:00.000Z')
+
+  assert.throws(() => jsonfeedToAtomObject({
+    version: 'https://jsonfeed.org/version/1.1',
+    title: 'A feed',
+    feed_url: 'https://example.com/feed.json',
+    authors: [{ name: 'Feed Author' }],
+    items: [{
+      id: 'entry',
+      content_text: 'Body',
+      date_published: 'not a date'
+    }]
+  }), /invalid date_published/)
+
+  assert.throws(() => jsonfeedToAtomObject({
+    version: 'https://jsonfeed.org/version/1.1',
+    title: 'A feed',
+    feed_url: 'https://example.com/feed.json',
+    authors: [{ name: 'Feed Author' }],
+    items: [{
+      id: 'entry',
+      content_text: 'Body',
+      date_published: '2026-02-30T00:00:00Z'
+    }]
+  }), /invalid date_published/)
 })
 
 test('uses the custom URL mapper for the current and next feeds', () => {
