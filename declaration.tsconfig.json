@@ -1,0 +1,17 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "declaration": true,
+    "declarationMap": true,
+    "noEmit": false,
+    "emitDeclarationOnly": true
+  },
+  "exclude": [
+    "**/*.test.js",
+    "generate-snapshot.js",
+    "type-tests.ts",
+    "node_modules",
+    "coverage",
+    ".github"
+  ]
+}

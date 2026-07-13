@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/bcomnes/jsonfeed-to-atom/schemas/json-feed-1.1.json",
+  "title": "JSONFeed",
+  "description": "A JSON Feed version 1.1 document.",
+  "$comment": "Based on SchemaStore feed.json at commit 01e00802b38350cb7ec257b11c456639a5cd0acf.",
+  "allOf": [
+    {
+      "$ref": "schemas/vendor/feed.json"
+    },
+    {
+      "type": "object",
+      "properties": {
+        "version": {
+          "const": "https://jsonfeed.org/version/1.1"
+        },
+        "feed_url": {
+          "type": "string",
+          "format": "uri"
+        }
+      },
+      "required": [
+        "version",
+        "feed_url"
+      ]
+    }
+  ]
+}

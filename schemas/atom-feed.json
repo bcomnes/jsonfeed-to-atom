@@ -1,0 +1,251 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/bcomnes/jsonfeed-to-atom/schemas/atom-feed.json",
+  "title": "AtomFeed",
+  "description": "An Atom 1.0 feed model used before RFC 4287 XML serialization.",
+  "$comment": "The converter enforces RFC 4287's conditional author requirement: the feed has a named author or every entry has one.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "title",
+    "updated"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "iri"
+    },
+    "title": {
+      "$ref": "#/$defs/textConstruct"
+    },
+    "updated": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "language": {
+      "type": "string",
+      "description": "The feed language serialized as xml:lang."
+    },
+    "author": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/person"
+      }
+    },
+    "link": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/link"
+      }
+    },
+    "generator": {
+      "$ref": "#/$defs/generator"
+    },
+    "icon": {
+      "type": "string",
+      "format": "iri"
+    },
+    "logo": {
+      "type": "string",
+      "format": "iri"
+    },
+    "rights": {
+      "type": "string"
+    },
+    "subtitle": {
+      "type": "string"
+    },
+    "entry": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/entry"
+      }
+    }
+  },
+  "$defs": {
+    "textConstruct": {
+      "title": "AtomTextConstruct",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "value"
+      ],
+      "properties": {
+        "value": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "text",
+            "html",
+            "xhtml"
+          ]
+        }
+      }
+    },
+    "person": {
+      "title": "AtomPerson",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string",
+          "format": "email"
+        },
+        "uri": {
+          "type": "string",
+          "format": "iri"
+        }
+      }
+    },
+    "link": {
+      "title": "AtomLink",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "href"
+      ],
+      "properties": {
+        "href": {
+          "type": "string",
+          "format": "iri"
+        },
+        "rel": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        },
+        "hreflang": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "length": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "generator": {
+      "title": "AtomGenerator",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "value": {
+          "type": "string"
+        },
+        "uri": {
+          "type": "string",
+          "format": "iri"
+        },
+        "version": {
+          "type": "string"
+        }
+      }
+    },
+    "category": {
+      "title": "AtomCategory",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "term"
+      ],
+      "properties": {
+        "term": {
+          "type": "string"
+        },
+        "scheme": {
+          "type": "string",
+          "format": "iri"
+        },
+        "label": {
+          "type": "string"
+        }
+      }
+    },
+    "content": {
+      "title": "AtomContent",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "value": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        },
+        "src": {
+          "type": "string",
+          "format": "iri"
+        }
+      }
+    },
+    "entry": {
+      "title": "AtomEntry",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "title",
+        "updated"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "iri"
+        },
+        "title": {
+          "$ref": "#/$defs/textConstruct"
+        },
+        "updated": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "published": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "language": {
+          "type": "string",
+          "description": "The entry language serialized as xml:lang."
+        },
+        "author": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/person"
+          }
+        },
+        "content": {
+          "$ref": "#/$defs/content"
+        },
+        "summary": {
+          "$ref": "#/$defs/textConstruct"
+        },
+        "link": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/link"
+          }
+        },
+        "category": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/category"
+          }
+        }
+      }
+    }
+  }
+}
